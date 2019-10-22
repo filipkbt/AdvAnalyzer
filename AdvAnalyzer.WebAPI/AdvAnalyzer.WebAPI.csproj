@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdvAnalyzer.Application\AdvAnalyzer.Application.csproj" />
+    <ProjectReference Include="..\AdvAnalyzer.Auth\AdvAnalyzer.Auth.csproj" />
+    <ProjectReference Include="..\AdvAnalyzer.Common\AdvAnalyzer.Common.csproj" />
   </ItemGroup>
 
 </Project>
