@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AdvAnalyzer.Application\AdvAnalyzer.Application.csproj" />
     <ProjectReference Include="..\AdvAnalyzer.Domain\AdvAnalyzer.Domain.csproj" />
-    <ProjectReference Include="..\AdvAnalyzer.Persistance\AdvAnalyzer.Persistance.csproj" />
   </ItemGroup>
 
 </Project>
