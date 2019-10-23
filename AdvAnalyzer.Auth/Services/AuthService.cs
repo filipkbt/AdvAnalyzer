@@ -3,7 +3,6 @@ using AdvAnalyzer.Application.AuthManagement.Contracts;
 using AdvAnalyzer.Application.AuthManagement.Queries;
 using AdvAnalyzer.Auth.Entities;
 using AdvAnalyzer.Domain.Entities;
-using AdvAnalyzer.Persistance.Entities;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using System;
