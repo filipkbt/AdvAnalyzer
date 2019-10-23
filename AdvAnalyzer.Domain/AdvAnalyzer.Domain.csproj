@@ -6,8 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
   </ItemGroup>
 
 </Project>
