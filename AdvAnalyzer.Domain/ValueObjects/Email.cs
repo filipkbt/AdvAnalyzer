@@ -1,8 +1,6 @@
 ﻿using AdvAnalyzer.Domain.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace AdvAnalyzer.Domain.ValueObjects
 {
