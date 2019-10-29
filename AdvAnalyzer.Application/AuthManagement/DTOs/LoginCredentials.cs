@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdvAnalyzer.Application.AuthManagement.DTOs
+﻿namespace AdvAnalyzer.Application.AuthManagement.DTOs
 {
     public class LoginCredentials
     {

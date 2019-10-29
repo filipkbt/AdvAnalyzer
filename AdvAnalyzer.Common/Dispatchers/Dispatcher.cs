@@ -2,9 +2,6 @@
 using AdvAnalyzer.Common.Types;
 using Autofac;
 using CSharpFunctionalExtensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AdvAnalyzer.Common.Dispatchers

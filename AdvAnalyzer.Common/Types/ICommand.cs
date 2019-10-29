@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdvAnalyzer.Common.Types
+﻿namespace AdvAnalyzer.Common.Types
 {
     public interface ICommand
     {

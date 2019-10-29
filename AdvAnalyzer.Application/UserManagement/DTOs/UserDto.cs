@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdvAnalyzer.Application.UserManagement.DTOs
+﻿namespace AdvAnalyzer.Application.UserManagement.DTOs
 {
     public class UserDto
     {

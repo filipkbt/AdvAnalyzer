@@ -1,7 +1,5 @@
 ﻿using AdvAnalyzer.Domain.ValueObjects;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AdvAnalyzer.Domain.Entities
 {

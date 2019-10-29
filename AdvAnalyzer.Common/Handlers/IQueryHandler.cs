@@ -1,6 +1,4 @@
 ﻿using AdvAnalyzer.Common.Types;
-using System;
-using System.Collections.Generic;
 using CSharpFunctionalExtensions;
 using System.Threading.Tasks;
 
