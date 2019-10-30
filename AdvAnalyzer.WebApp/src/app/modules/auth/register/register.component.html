@@ -4,20 +4,20 @@
     </mat-card-header>
     <form [formGroup]="form">
         <mat-form-field>
+            <input formControlName="userName" matInput placeholder="Username">
+        </mat-form-field>
+        <mat-form-field>
             <input formControlName="email" matInput placeholder="Email">
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="phoneNumber" matInput placeholder="Numer telefonu">
+            <input formControlName="phoneNumber" matInput placeholder="Phone number">
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="userName" matInput placeholder="Nazwa użytkownika">
+            <input formControlName="password" type="password" matInput placeholder="Password">
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="password" type="password" matInput placeholder="Hasło">
-        </mat-form-field>
-        <mat-form-field>
-            <input formControlName="confirmPassword" type="password" matInput placeholder="Powtórz hasło">
+            <input formControlName="confirmPassword" type="password" matInput placeholder="Confirm password">
         </mat-form-field>
         <button (click)="submit()" mat-raised-button color="primary">Zarejestruj się</button>
-    </form>  
+    </form>
 </mat-card>
