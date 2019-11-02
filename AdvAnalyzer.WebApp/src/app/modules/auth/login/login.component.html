@@ -1,1 +1,14 @@
-<p>login works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Logowanie - AdvAnalyzer</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input formControlName="userName" matInput placeholder="Username">
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="password" type="password" matInput placeholder="Password">
+        </mat-form-field>
+        <button (click)="submit()" mat-raised-button color="primary">Zaloguj się</button>
+    </form>
+</mat-card>
