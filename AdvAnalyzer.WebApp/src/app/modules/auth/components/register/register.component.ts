@@ -33,4 +33,8 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  navigateBack(): void {
+    this.router.navigate(['site/auth']);
+  }
+
 }
