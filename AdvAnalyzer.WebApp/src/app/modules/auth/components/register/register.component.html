@@ -28,7 +28,7 @@
 
             <mat-card-actions class="login-actions">
                 <button class="action-button" mat-flat-button color="primary" (click)="navigateBack()">Back</button>
-                <button class="action-button margin-top-sm" type="submit" [disabled]="!registerForm.valid" mat-flat-button color="primary">Register</button>
+                <button class="action-button mt-3" type="submit" [disabled]="!registerForm.valid" mat-flat-button color="primary">Register</button>
             </mat-card-actions>
         </mat-card>
         <mat-progress-bar *ngIf="isLoadingResults" mode="indeterminate"></mat-progress-bar>
