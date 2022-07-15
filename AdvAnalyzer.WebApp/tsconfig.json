@@ -27,6 +27,11 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictTemplates": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@angular",
+      "node_modules/@angular/common/http"
+    ]
+  },
 }

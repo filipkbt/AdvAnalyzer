@@ -1,6 +1,7 @@
 ﻿using AdvAnalyzer.WebApi.Dtos;
 using AdvAnalyzer.WebApi.Models;
 using AutoMapper;
+using System.Text;
 
 namespace AdvAnalyzer.WebApi.Helpers
 {
@@ -9,8 +10,8 @@ namespace AdvAnalyzer.WebApi.Helpers
         public AutoMapperProfile()
         {
             CreateMap<Advertisement, AdvertisementDto>();
-            CreateMap<LoginDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => System.Convert.FromBase64String(src.Password)));
-            CreateMap<RegisterDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => System.Convert.FromBase64String(src.Password))); ;
+            CreateMap<LoginDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => Encoding.ASCII.GetBytes(src.Password)));
+            CreateMap<RegisterDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => Encoding.ASCII.GetBytes(src.Password)));
         }
     }
 }
