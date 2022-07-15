@@ -7,8 +7,11 @@ import { catchError, Observable, tap } from 'rxjs';
 })
 export class AuthService {
   apiUrl = 'https://localhost:44309/api/auth/';
+  public isAuthenticated: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.isAuthenticated = this.getToken();
+  }
 
   login(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + 'login', data);

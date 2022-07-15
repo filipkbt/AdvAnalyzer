@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         if (res.token) {
+          this.authService.isAuthenticated = true;
           localStorage.setItem('token', res.token);
           this.router.navigate(['site/advertisement']);
         }

@@ -16,6 +16,7 @@ export class AppComponent {
 
   logout(): void {
     localStorage.removeItem('token')
+    this.authService.isAuthenticated = false;
     this.router.navigate(['site/auth']);
   }
 }
