@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from './modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +8,7 @@ import { AuthService } from './modules/auth/services/auth.service';
 export class AppComponent {
   title = 'AdvAnalyzer.WebApp';
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor() {
 
-  }
-
-  logout(): void {
-    localStorage.removeItem('token')
-    this.authService.isAuthenticated = false;
-    this.router.navigate(['site/auth']);
   }
 }

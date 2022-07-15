@@ -10,9 +10,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatToolbarModule } from '@angular/material/toolbar'
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutComponent } from './layout/layout.component';
+import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const additionalModules = [
   MatInputModule,
@@ -24,15 +31,25 @@ const additionalModules = [
   MatButtonModule,
   MatCardModule,
   MatFormFieldModule,
+  MatSidenavModule,
+  MatListModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatProgressBarModule,
   FormsModule,
   ReactiveFormsModule,
   HttpClientModule,
-  MatProgressBarModule]
+  FlexLayoutModule]
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    LayoutComponent
+  ],
   imports: [
-    additionalModules
+    CommonModule,
+    additionalModules,
+    RouterModule
+
   ], exports: [additionalModules]
 })
 export class SharedModule { }
