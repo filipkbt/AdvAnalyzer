@@ -4,6 +4,7 @@ import { AdvertisementsListComponent } from './components/advertisements-list/ad
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
+import { FavoriteAdvertisementsListComponent } from './components/favorite-advertisements-list/favorite-advertisements-list.component';
 
 const routes: Routes = [
   {
@@ -11,12 +12,19 @@ const routes: Routes = [
     component: LayoutComponent, children: [
       { path: '', component: AdvertisementsListComponent },
     ]
+  },
+  {
+    path: 'favorite',
+    component: LayoutComponent, children: [
+      { path: '', component: FavoriteAdvertisementsListComponent },
+    ]
   }
 ];
 
 @NgModule({
   declarations: [
-    AdvertisementsListComponent
+    AdvertisementsListComponent,
+    FavoriteAdvertisementsListComponent
   ],
   imports: [
     CommonModule,

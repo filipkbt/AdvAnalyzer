@@ -57,13 +57,35 @@
   
         <mat-nav-list>
           <h3 mat-subheader>Home</h3>
-  
-          <a mat-list-item >
+
+          <a mat-list-item [routerLink]="['/site/notification']">
             <mat-icon mat-list-icon>
-              dashboard
+              notifications
             </mat-icon>
-            <p mat-line> Dashboard </p>
+            <p mat-line> Notifications </p>
           </a>
+
+          <a mat-list-item [routerLink]="['/site/search-query']">
+            <mat-icon mat-list-icon>
+              search
+            </mat-icon>
+            <p mat-line> Search Queries </p>
+          </a>
+
+          <a mat-list-item [routerLink]="['/site/advertisement/favorite']">
+            <mat-icon mat-list-icon>
+              favorite
+            </mat-icon>
+            <p mat-line> Favorite Advertisements </p>
+          </a>
+
+          <a mat-list-item [routerLink]="['/site/advertisement']">
+            <mat-icon mat-list-icon>
+              announcement
+            </mat-icon>
+            <p mat-line> Advertisements </p>
+          </a>
+
   
           <a id="push-bottom" mat-list-item >
             <mat-icon mat-list-icon>

@@ -19,6 +19,22 @@ export const routes: Routes = [
                 (m) => m.AdvertisementModule
             ),
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'notification',
+        loadChildren: () =>
+            import('./notification/notification.module').then(
+                (m) => m.NotificationModule
+            ),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'search-query',
+        loadChildren: () =>
+            import('./search-query/search-query.module').then(
+                (m) => m.SearchQueryModule
+            ),
+        canActivate: [AuthGuard]
     }
 ];
 
