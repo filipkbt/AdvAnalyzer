@@ -1,5 +1,6 @@
 ﻿using AdvAnalyzer.WebApi.Models;
 using AdvAnalyzer.WebApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AdvAnalyzer.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SearchQueryController : ControllerBase
