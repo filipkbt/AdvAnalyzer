@@ -3,23 +3,29 @@ import { CommonModule } from '@angular/common';
 import { SearchQueryListComponent } from './components/search-query-list/search-query-list.component';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
 import { RouterModule, Routes } from '@angular/router';
+import { SearchQueryContainerComponent } from './containers/search-query-container/search-query-container.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { AddSearchQueryComponent } from './components/add-search-query/add-search-query.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent, children: [
-      { path: '', component: SearchQueryListComponent },
+      { path: '', component: SearchQueryContainerComponent },
     ]
   }
 ];
 
 @NgModule({
   declarations: [
-    SearchQueryListComponent
+    SearchQueryListComponent,
+    SearchQueryContainerComponent,
+    AddSearchQueryComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ]
 })
 export class SearchQueryModule { }

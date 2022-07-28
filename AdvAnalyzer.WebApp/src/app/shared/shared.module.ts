@@ -14,6 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatDialogModule } from '@angular/material/dialog'
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -39,7 +40,9 @@ const additionalModules = [
   FormsModule,
   ReactiveFormsModule,
   HttpClientModule,
-  FlexLayoutModule]
+  FlexLayoutModule,
+  MatDialogModule
+]
 
 @NgModule({
   declarations: [

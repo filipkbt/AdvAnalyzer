@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-query-list.component.scss']
 })
 export class SearchQueryListComponent implements OnInit {
+  displayedColumns: string[] = ['name', 'url','results','new', 'action'];
 
   constructor() { }
 

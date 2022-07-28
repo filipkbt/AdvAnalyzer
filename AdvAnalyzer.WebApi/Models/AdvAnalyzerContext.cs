@@ -15,6 +15,7 @@ namespace AdvAnalyzer.WebApi.Models
 
         public virtual DbSet<Advertisement> Advertisement { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<SearchQuery> SearchQuery { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,31 +25,24 @@ namespace AdvAnalyzer.WebApi.Models
             }
         }
 
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Advertisement>(entity =>
-            {
-                entity.HasKey(e => e.AdvertisementId);
+            modelBuilder.Entity<User>()
+                .HasMany(b => b.SearchQueries)
+                 .WithOne(b => b.User)
+                .OnDelete(DeleteBehavior.ClientNoAction);
 
-                entity.Property(e => e.AdvertisementId).HasColumnName("AdvertisementID");
+            modelBuilder.Entity<SearchQuery>()
+                .HasMany(b => b.Advertisements)
+                .WithOne(b => b.SearchQuery)
+                .OnDelete(DeleteBehavior.ClientNoAction);
 
-                entity.Property(e => e.Title)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.UserId);
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password).HasMaxLength(128);
-
-                entity.Property(e => e.Salt).HasMaxLength(128);
-            });
-        } } }
+            modelBuilder.Entity<SearchQuery>()
+                .HasOne(b => b.User)
+                .WithMany(b => b.SearchQueries)
+                .OnDelete(DeleteBehavior.ClientNoAction);
+        }
+    }
+}
