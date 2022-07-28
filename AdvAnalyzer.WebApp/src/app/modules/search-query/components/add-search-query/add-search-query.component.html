@@ -1,1 +1,33 @@
-<mat-card>Simple card</mat-card>
+<mat-card>
+        <form class="container" [formGroup]="formGroup" (submit)="submit(formGroup.value)">
+      
+          <mat-form-field class="form-element">
+            <input matInput placeholder="Name" formControlName="name">
+            <mat-error *ngIf="!formGroup.controls['name']?.valid && formGroup.controls['name']?.touched">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="form-element">
+            <input matInput placeholder="URL" formControlName="url">
+            <mat-error *ngIf="!formGroup.controls['url']?.valid && formGroup.controls['url']?.touched">
+              Url is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="form-element">
+            <mat-select formControlName="refreshFrequencyInMinutes" placeholder="Refresh Frequency (mins)">
+              <mat-option *ngFor="let frequency of frequencies" [value]="frequency">
+                {{ frequency }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="!formGroup.controls['refreshFrequencyInMinutes']?.valid && formGroup.controls['refreshFrequencyInMinutes']?.touched">
+                Refresh Frequency in minutes is required
+              </mat-error>
+          </mat-form-field>
+      
+        <button mat-raised-button color="primary" type="submit" class="form-element" [disabled]="!formGroup?.valid" >Add</button>
+      
+        </form>
+
+</mat-card>

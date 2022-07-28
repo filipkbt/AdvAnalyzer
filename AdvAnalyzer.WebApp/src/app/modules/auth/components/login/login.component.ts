@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
+import { finalize, take } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,8 +14,6 @@ export class LoginComponent implements OnInit {
     'email': [null, Validators.required],
     'password': [null, Validators.required]
   });
-  email = '';
-  password = '';
   isLoadingResults = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
@@ -24,13 +22,16 @@ export class LoginComponent implements OnInit {
 
   }
 
-  onFormSubmit(form: NgForm) {
-    this.authService.login(form)
+  onFormSubmit() {
+    this.isLoadingResults = true;
+    this.authService.login(this.loginForm.getRawValue())
+      .pipe(finalize(() => this.isLoadingResults = false), take(1))
       .subscribe(res => {
-        console.log(res);
         if (res.token) {
           this.authService.isAuthenticated = true;
           localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
+          localStorage.setItem('email', res.email);
           this.router.navigate(['site/advertisement']);
         }
       }, (err) => {

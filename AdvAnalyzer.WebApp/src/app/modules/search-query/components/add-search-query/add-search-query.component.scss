@@ -3,3 +3,9 @@ mat-card {
     box-shadow: none;
     margin: 15px;
 }
+
+.container {
+    display: grid;
+    grid-template-columns: 25% 54% 15% 5%;
+    grid-gap: 10px;
+}

@@ -12,10 +12,9 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup  = this.formBuilder.group({
     'email' : [null, Validators.required],
-    'password' : [null, Validators.required]
-  });;
-  email = '';
-  password = '';
+    'password' : [null, [Validators.required, Validators.minLength(8)]]
+  });
+
   isLoadingResults = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
@@ -23,8 +22,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
-  onFormSubmit(form: NgForm) {
-    this.authService.register(form)
+  onFormSubmit() {
+    this.authService.register(this.registerForm.getRawValue())
       .subscribe(res => {
         this.router.navigate(['site/auth']);
       }, (err) => {

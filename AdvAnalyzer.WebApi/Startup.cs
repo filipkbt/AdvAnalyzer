@@ -51,7 +51,8 @@ namespace AdvAnalyzer.WebApi
                           };
                       });
 
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            AddRepositories(services);
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperProfile());
@@ -85,6 +86,12 @@ namespace AdvAnalyzer.WebApi
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
             });
+        }
+
+        private void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<ISearchQueryRepository, SearchQueryRepository>();
         }
     }
 }

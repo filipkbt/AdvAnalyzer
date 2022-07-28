@@ -67,7 +67,7 @@ namespace AdvAnalyzer.WebApi.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { token = tokenHandler.WriteToken(token), email = userFromRepo.Email });
+            return Ok(new { token = tokenHandler.WriteToken(token), email = userFromRepo.Email, userId = userFromRepo.UserId });
         }
     }
 }
