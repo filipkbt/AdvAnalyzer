@@ -31,11 +31,11 @@
 
       <mat-card-actions class="login-actions">
         <button class="action-button" mat-raised-button id="login" color="primary"
-          [disabled]="loginForm.invalid || isLoadingResults">Login</button>
+          [disabled]="loginForm.invalid || isLoading">Login</button>
         <button class="action-button mt-3" type="button" mat-flat-button color="primary"
           (click)="register()">Register</button>
       </mat-card-actions>
     </mat-card>
-    <mat-progress-bar *ngIf="isLoadingResults" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </form>
 </div>

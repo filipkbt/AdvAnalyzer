@@ -29,7 +29,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             var data =  await GetAll().Where(x => x.UserId == userId)
                                 .OrderBy(x => x.DateAdded)
-                                .Skip((pagedListQueryParams.PageNumber - 1) * pagedListQueryParams.PageSize)
+                                .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                                 .Take(pagedListQueryParams.PageSize)
                                 .ToListAsync();
 

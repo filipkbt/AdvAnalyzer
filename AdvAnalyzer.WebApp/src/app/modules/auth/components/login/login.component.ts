@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
     'email': [null, Validators.required],
     'password': [null, Validators.required]
   });
-  isLoadingResults = false;
+  isLoading = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) { }
 
@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.isLoadingResults = true;
+    this.isLoading = true;
     this.authService.login(this.loginForm.getRawValue())
-      .pipe(finalize(() => this.isLoadingResults = false), take(1))
+      .pipe(finalize(() => this.isLoading = false), take(1))
       .subscribe(res => {
         if (res.token) {
           this.authService.isAuthenticated = true;

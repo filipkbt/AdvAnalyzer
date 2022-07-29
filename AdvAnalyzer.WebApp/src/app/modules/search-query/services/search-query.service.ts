@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PagedList } from 'src/app/core/models/paged-list.models';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 import { SearchQuery } from '../models/search-query.model';
@@ -13,11 +14,11 @@ export class SearchQueryService {
 
   constructor(private http: HttpClient, private readonly authService: AuthService) { }
 
-  getAllByUserId(): Observable<SearchQuery[]> {
+  getAllByUserId(pageNumber: number, pageSize: number): Observable<PagedList> {
     let params = new HttpParams();
-    params = params.append('pageNumber', 1);
-    params = params.append('pageSize', 50);
-    return this.http.get<SearchQuery[]>(environment.apiUrl + 'searchquery/user/' + this.userId, { params: params });
+    params = params.append('pageNumber', pageNumber);
+    params = params.append('pageSize', pageSize);
+    return this.http.get<PagedList>(environment.apiUrl + 'searchquery/user/' + this.userId, { params: params });
   }
 
   getById(searchQueryId: number): Observable<SearchQuery> {

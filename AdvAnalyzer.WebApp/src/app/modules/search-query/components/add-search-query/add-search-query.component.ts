@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from '../../models/search-query.model';
 import { SearchQueryService } from '../../services/search-query.service';
-
+import { finalize, take } from 'rxjs';
+import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
+import { Constants } from 'src/app/core/constants/constants';
 @Component({
   selector: 'app-add-search-query',
   templateUrl: './add-search-query.component.html',
   styleUrls: ['./add-search-query.component.scss']
 })
 export class AddSearchQueryComponent implements OnInit {
+  @Output() refreshList = new EventEmitter<PagedListQueryParams>();
+
   public frequencies: number[] = [1, 2, 3, 4, 5, 10, 30, 60, 120, 240];
   public formGroup: FormGroup = this.formBuilder.group({
     'name': [null, Validators.required],
@@ -23,8 +27,8 @@ export class AddSearchQueryComponent implements OnInit {
   }
 
   submit(data: SearchQuery): void {
-    this.searchQueryService.create(data).subscribe(x=> {
-      console.log(x);
+    this.searchQueryService.create(data).pipe(take(1)).subscribe(x => {
+      this.refreshList.emit({ pageNumber: 0 });
     })
   }
 }
