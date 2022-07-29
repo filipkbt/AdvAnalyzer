@@ -50,9 +50,9 @@ namespace AdvAnalyzer.WebApi.Controllers
         }
 
         [HttpDelete("{searchQueryId}")]
-        public async Task<IActionResult> Delete(SearchQuery searchQuery)
+        public async Task<IActionResult> Delete(int searchQueryId)
         {
-            var data = await repository.Update(searchQuery);
+            var data = await repository.Delete(searchQueryId);
             return Ok(data);
         }
     }

@@ -6,6 +6,7 @@ namespace AdvAnalyzer.WebApi.Dtos
 {
     public class SearchQueryDto
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -16,5 +17,8 @@ namespace AdvAnalyzer.WebApi.Dtos
         public int UserId { get; set; }
         [Required]
         public bool SendEmailNotifications { get; set; }
+
+        public int Results { get; set; }
+        public int NewResults { get; set; }
     }
 }

@@ -1,2 +1,2 @@
 <app-add-search-query (refreshList)="loadData($event)"></app-add-search-query>
-<app-search-query-list [isLoading]="isLoading" (refreshList)="loadData($event)"></app-search-query-list>
+<app-search-query-list [isLoading]="isLoading" (refreshList)="loadData($event)" (deleteClicked)="delete($event)"></app-search-query-list>

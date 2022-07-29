@@ -16,6 +16,7 @@ export class SearchQueryListComponent implements OnInit {
   @Input() isLoading: boolean = false;
 
   @Output() refreshList = new EventEmitter<PagedListQueryParams>();
+  @Output() deleteClicked = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -39,6 +40,10 @@ export class SearchQueryListComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.loadData();
+  }
+
+  public delete(id: number): void {
+    this.deleteClicked.emit(id);
   }
 
   private loadData(): void {

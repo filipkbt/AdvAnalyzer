@@ -5,4 +5,6 @@ export interface SearchQuery {
     userId: number;
     sendEmailNotifications: boolean;
     dateAdded: Date;
+    results: number;
+    newResults: number;
 }

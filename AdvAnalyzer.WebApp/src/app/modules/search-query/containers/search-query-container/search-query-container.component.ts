@@ -18,14 +18,21 @@ export class SearchQueryContainerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public loadData(pagedListQueryParams: PagedListQueryParams): void {
+  public loadData(pagedListQueryParams?: PagedListQueryParams): void {
     this.isLoading = true;
-    this.searchQueryService.getAllByUserId(pagedListQueryParams.pageNumber, pagedListQueryParams.pageSize ?? this.searchQueryListComponent.pageSize).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
+    this.searchQueryService.getAllByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent.pageSize).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams.pageNumber;
+        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage;
         this.searchQueryListComponent.paginator.length = data.count;
       });
+    })
+  }
+
+  public delete(id: number) {
+    this.isLoading = true;
+    this.searchQueryService.delete(id).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(x => {
+      this.loadData();
     })
   }
 }

@@ -1,5 +1,7 @@
-﻿using AdvAnalyzer.WebApi.Helpers;
+﻿using AdvAnalyzer.WebApi.Dtos;
+using AdvAnalyzer.WebApi.Helpers;
 using AdvAnalyzer.WebApi.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +15,15 @@ namespace AdvAnalyzer.WebApi.Repositories
     {
         private readonly AdvAnalyzerContext _context;
         private DbSet<SearchQuery> table = null;
+        private DbSet<Advertisement> advertisementsTable = null;
+        private IMapper _mapper = null;
 
-        public SearchQueryRepository(AdvAnalyzerContext context)
+        public SearchQueryRepository(AdvAnalyzerContext context, IMapper mapper)
         {
             _context = context;
             table = _context.Set<SearchQuery>();
+            advertisementsTable = _context.Set<Advertisement>();
+            _mapper = mapper;
         }
 
         public IQueryable<SearchQuery> GetAll()
@@ -25,19 +31,33 @@ namespace AdvAnalyzer.WebApi.Repositories
             return table.AsQueryable();
         }
 
-        public async Task<PagedList<SearchQuery>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
+        public IQueryable<Advertisement> GetAllAdvertisements()
         {
-            var data =  await GetAll().Where(x => x.UserId == userId)
+            return advertisementsTable.AsQueryable();
+        }
+
+        public async Task<PagedList<SearchQueryDto>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
+        {
+            var data = await GetAll().Where(x => x.UserId == userId)
                                 .OrderBy(x => x.DateAdded)
                                 .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                                 .Take(pagedListQueryParams.PageSize)
                                 .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
-            var hasNestPage = (count % pagedListQueryParams.PageSize) != 0;
-            var hasPreviousPage = pagedListQueryParams.PageNumber != 1;
 
-            return new PagedList<SearchQuery> { Count = count, Data = data };
+            var searchQueryDtoList = new List<SearchQueryDto>();
+
+            foreach (var searchQuery in data)
+            {
+                var searchQueryDto = _mapper.Map<SearchQuery, SearchQueryDto>(searchQuery);
+
+                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id).CountAsync();
+                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false).CountAsync();
+                searchQueryDtoList.Add(searchQueryDto);
+            }
+
+            return new PagedList<SearchQueryDto> { Count = count, Data = searchQueryDtoList };
 
         }
 
@@ -50,7 +70,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             var existing = table.Find(searchQueryId);
             table.Remove(existing);
-            return  await _context.SaveChangesAsync() > 0 ? true : false;     
+            return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
         public async Task<SearchQuery> Insert(SearchQuery searchQuery)
@@ -68,5 +88,7 @@ namespace AdvAnalyzer.WebApi.Repositories
             await _context.SaveChangesAsync();
             return searchQuery;
         }
+
+  
     }
 }
