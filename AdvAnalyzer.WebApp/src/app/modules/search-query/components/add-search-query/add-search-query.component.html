@@ -25,6 +25,8 @@
                 Refresh Frequency in minutes is not valid
               </mat-error>
           </mat-form-field>
+
+            <mat-checkbox class="email-notifications-control" formControlName="sendEmailNotifications">Send Email Notifications?</mat-checkbox>
       
         <button mat-raised-button color="primary" type="submit" class="form-element" [disabled]="!formGroup?.valid" >Add</button>
       

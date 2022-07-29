@@ -14,6 +14,7 @@ export class AddSearchQueryComponent implements OnInit {
     'name': [null, Validators.required],
     'url': [null, [Validators.required, Validators.pattern('(https?://)?www.olx\\.pl(.*)')]],
     'refreshFrequencyInMinutes': [null, Validators.required],
+    'sendEmailNotifications': [false, Validators.required]
   });
 
   constructor(private readonly formBuilder: FormBuilder, private readonly searchQueryService: SearchQueryService) { }

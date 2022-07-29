@@ -14,5 +14,7 @@ namespace AdvAnalyzer.WebApi.Dtos
         public int RefreshFrequencyInMinutes { get; set; }
         [Required]
         public int UserId { get; set; }
+        [Required]
+        public bool SendEmailNotifications { get; set; }
     }
 }

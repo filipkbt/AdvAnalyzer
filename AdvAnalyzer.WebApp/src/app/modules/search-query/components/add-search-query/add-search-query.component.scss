@@ -6,6 +6,10 @@ mat-card {
 
 .container {
     display: grid;
-    grid-template-columns: 25% 54% 15% 5%;
+    grid-template-columns: 20% 42% 15% 15% 5%;
     grid-gap: 10px;
+
+    .email-notifications-control {
+        align-self: center;
+    }
 }
