@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { SearchQueryService } from '../../services/search-query.service';
 
