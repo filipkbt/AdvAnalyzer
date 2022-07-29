@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AdvAnalyzer.WebApi.Models
 {
     public class SearchQuery
     {
-        public int SearchQueryId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
         public int RefreshFrequencyInMinutes { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
+        public DateTime DateAdded { get; set; }
         public virtual ICollection<Advertisement> Advertisements { get; set; }
     }
 }

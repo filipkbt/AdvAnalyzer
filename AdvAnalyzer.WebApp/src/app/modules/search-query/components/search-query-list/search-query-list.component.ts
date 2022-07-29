@@ -10,10 +10,10 @@ import { SearchQueryService } from '../../services/search-query.service';
 export class SearchQueryListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'url','results','new', 'action'];
 
-  constructor(private readonly searchQueryService: SearchQueryService, private readonly authService: AuthService) { }
+  constructor(private readonly searchQueryService: SearchQueryService) { }
 
   ngOnInit(): void {
-    this.searchQueryService.getAllByUserId(this.authService.getUserId()).subscribe(x => {
+    this.searchQueryService.getAllByUserId().subscribe(x => {
       console.log(x);
     })
 

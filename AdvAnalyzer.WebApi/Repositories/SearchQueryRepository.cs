@@ -1,5 +1,6 @@
 ﻿using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,53 +34,27 @@ namespace AdvAnalyzer.WebApi.Repositories
             return await table.FindAsync(searchQueryId);
 
         }
-        public Task<bool> Delete(int searchQueryId)
+        public async Task<bool> Delete(int searchQueryId)
         {
-            throw new System.NotImplementedException();
+            var existing = table.Find(searchQueryId);
+            table.Remove(existing);
+            return  await _context.SaveChangesAsync() > 0 ? true : false;     
         }
 
-        public Task<SearchQuery> Insert(SearchQuery searchQuery)
+        public async Task<SearchQuery> Insert(SearchQuery searchQuery)
         {
-            throw new System.NotImplementedException();
+            searchQuery.DateAdded = DateTime.Now;
+            await table.AddAsync(searchQuery);
+            await _context.SaveChangesAsync();
+            return searchQuery;
         }
 
-        public Task<SearchQuery> Update(SearchQuery searchQuery)
+        public async Task<SearchQuery> Update(SearchQuery searchQuery)
         {
-            throw new System.NotImplementedException();
+            table.Attach(searchQuery);
+            _context.Entry(searchQuery).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return searchQuery;
         }
     }
 }
-
-
-
-    //public IQueryable<T> GetAll()
-    //{
-    //    return this.table.AsQueryable();
-    //}
-
-//public async Task<IEnumerable<T>> GetAllByUserId<TKey>(TKey userId)
-//{
-//    return await table.FindAsync(userId);
-//}
-//public async Task<T> GetById(int id)
-//{
-//    return await table.FindAsync(id);
-//}
-//public void Insert(T obj)
-//{
-//    table.Add(obj);
-//}
-//public void Update(T obj)
-//{
-//    table.Attach(obj);
-//    _context.Entry(obj).State = EntityState.Modified;
-//}
-//public void Delete(int id)
-//{
-//    T existing = table.Find(id);
-//    table.Remove(existing);
-//}
-//public void Save()
-//{
-//    _context.SaveChanges();
-//}

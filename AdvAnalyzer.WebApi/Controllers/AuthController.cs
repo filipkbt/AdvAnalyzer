@@ -50,7 +50,7 @@ namespace AdvAnalyzer.WebApi.Controllers
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, userFromRepo.Email)
             };
 
@@ -67,7 +67,7 @@ namespace AdvAnalyzer.WebApi.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { token = tokenHandler.WriteToken(token), email = userFromRepo.Email, userId = userFromRepo.UserId });
+            return Ok(new { token = tokenHandler.WriteToken(token), email = userFromRepo.Email, userId = userFromRepo.Id });
         }
     }
 }

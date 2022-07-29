@@ -31,7 +31,7 @@ namespace AdvAnalyzer.WebApi.Models
         {
             modelBuilder.Entity<User>()
                 .HasMany(b => b.SearchQueries)
-                 .WithOne(b => b.User)
+                .WithOne(b => b.User)
                 .OnDelete(DeleteBehavior.ClientNoAction);
 
             modelBuilder.Entity<SearchQuery>()

@@ -4,14 +4,16 @@ using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvAnalyzer.WebApi.Migrations
 {
     [DbContext(typeof(AdvAnalyzerContext))]
-    partial class AdvAnalyzerContextModelSnapshot : ModelSnapshot
+    [Migration("20220729194208_add-date-added-to-search-query")]
+    partial class adddateaddedtosearchquery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace AdvAnalyzer.WebApi.Migrations
 
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.Advertisement", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AdvertisementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -53,7 +55,7 @@ namespace AdvAnalyzer.WebApi.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("AdvertisementId");
 
                     b.HasIndex("SearchQueryId");
 
@@ -64,7 +66,7 @@ namespace AdvAnalyzer.WebApi.Migrations
 
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.SearchQuery", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SearchQueryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -84,7 +86,7 @@ namespace AdvAnalyzer.WebApi.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("SearchQueryId");
 
                     b.HasIndex("UserId");
 
@@ -93,7 +95,7 @@ namespace AdvAnalyzer.WebApi.Migrations
 
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -107,7 +109,7 @@ namespace AdvAnalyzer.WebApi.Migrations
                     b.Property<byte[]>("Salt")
                         .HasColumnType("varbinary(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("User");
                 });

@@ -3,4 +3,5 @@ export interface SearchQuery {
     url: string;
     refreshFrequencyInMinutes: number;
     userId: number;
+    dateAdded: Date;
 }

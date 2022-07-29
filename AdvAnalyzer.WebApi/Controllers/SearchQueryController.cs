@@ -33,5 +33,26 @@ namespace AdvAnalyzer.WebApi.Controllers
             var data = await repository.GetById(searchQueryId);
             return Ok(data);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(SearchQuery searchQuery)
+        {
+            var data = await repository.Insert(searchQuery);
+            return Ok(data);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(SearchQuery searchQuery)
+        {
+            var data = await repository.Update(searchQuery);
+            return Ok(data);
+        }
+
+        [HttpDelete("{searchQueryId}")]
+        public async Task<IActionResult> Delete(SearchQuery searchQuery)
+        {
+            var data = await repository.Update(searchQuery);
+            return Ok(data);
+        }
     }
 }

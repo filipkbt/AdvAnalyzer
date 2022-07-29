@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from '../../models/search-query.model';
+import { SearchQueryService } from '../../services/search-query.service';
 
 @Component({
   selector: 'app-add-search-query',
@@ -15,12 +16,14 @@ export class AddSearchQueryComponent implements OnInit {
     'refreshFrequencyInMinutes': [null, Validators.required],
   });
 
-  constructor(private readonly formBuilder: FormBuilder) { }
+  constructor(private readonly formBuilder: FormBuilder, private readonly searchQueryService: SearchQueryService) { }
 
   ngOnInit(): void {
   }
 
   submit(data: SearchQuery): void {
-    console.log(data);
+    this.searchQueryService.create(data).subscribe(x=> {
+      console.log(x);
+    })
   }
 }
