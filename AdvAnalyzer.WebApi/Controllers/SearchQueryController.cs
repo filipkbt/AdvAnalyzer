@@ -20,10 +20,17 @@ namespace AdvAnalyzer.WebApi.Controllers
             this.repository = repo;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetSearchQueriesByUserId(int userId)
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetAllByUserId(int userId)
         {
             var data = await repository.GetAllByUserId(userId);
+            return Ok(data);
+        }
+
+        [HttpGet("{searchQueryId}")]
+        public async Task<IActionResult> GetById(int searchQueryId)
+        {
+            var data = await repository.GetById(searchQueryId);
             return Ok(data);
         }
     }

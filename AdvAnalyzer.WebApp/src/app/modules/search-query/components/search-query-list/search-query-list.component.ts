@@ -13,7 +13,11 @@ export class SearchQueryListComponent implements OnInit {
   constructor(private readonly searchQueryService: SearchQueryService, private readonly authService: AuthService) { }
 
   ngOnInit(): void {
-    this.searchQueryService.getAll(this.authService.getUserId()).subscribe(x => {
+    this.searchQueryService.getAllByUserId(this.authService.getUserId()).subscribe(x => {
+      console.log(x);
+    })
+
+    this.searchQueryService.getById(1).subscribe(x => {
       console.log(x);
     })
   }

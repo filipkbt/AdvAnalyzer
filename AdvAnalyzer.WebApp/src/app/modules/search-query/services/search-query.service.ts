@@ -10,12 +10,14 @@ import { SearchQuery } from '../models/search-query.model';
 })
 export class SearchQueryService {
 
-  constructor(private http: HttpClient, private readonly authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
-  getAll(userId: number): Observable<SearchQuery> {
-    const params = new HttpParams().append('userId', this.authService.getUserId());
+  getAllByUserId(userId: number): Observable<SearchQuery[]> {
+    return this.http.get<any>(environment.apiUrl + 'searchquery/user/' + userId);
+  }
 
-    return this.http.get<any>(environment.apiUrl + 'searchquery', { params: params });
+  getById(searchQueryId: number): Observable<SearchQuery> {
+    return this.http.get<any>(environment.apiUrl + 'searchquery/' + searchQueryId);
   }
 
 }

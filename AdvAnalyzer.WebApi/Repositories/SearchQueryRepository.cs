@@ -20,7 +20,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public IQueryable<SearchQuery> GetAll()
         {
-            return this.table.AsQueryable();
+            return table.AsQueryable();
         }
 
         public async Task<IEnumerable<SearchQuery>> GetAllByUserId(int userId)
@@ -28,9 +28,10 @@ namespace AdvAnalyzer.WebApi.Repositories
             return await GetAll().Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public Task<SearchQuery> GetById(int searchQueryId)
+        public async Task<SearchQuery> GetById(int searchQueryId)
         {
-            throw new System.NotImplementedException();
+            return await table.FindAsync(searchQueryId);
+
         }
         public Task<bool> Delete(int searchQueryId)
         {
