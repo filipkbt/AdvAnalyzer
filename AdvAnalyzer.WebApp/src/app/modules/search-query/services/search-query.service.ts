@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,10 @@ export class SearchQueryService {
   constructor(private http: HttpClient, private readonly authService: AuthService) { }
 
   getAllByUserId(): Observable<SearchQuery[]> {
-    return this.http.get<SearchQuery[]>(environment.apiUrl + 'searchquery/user/' + this.userId);
+    let params = new HttpParams();
+    params = params.append('pageNumber', 1);
+    params = params.append('pageSize', 50);
+    return this.http.get<SearchQuery[]>(environment.apiUrl + 'searchquery/user/' + this.userId, { params: params });
   }
 
   getById(searchQueryId: number): Observable<SearchQuery> {

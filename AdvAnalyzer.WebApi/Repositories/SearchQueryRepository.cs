@@ -1,4 +1,5 @@
-﻿using AdvAnalyzer.WebApi.Models;
+﻿using AdvAnalyzer.WebApi.Helpers;
+using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,20 @@ namespace AdvAnalyzer.WebApi.Repositories
             return table.AsQueryable();
         }
 
-        public async Task<IEnumerable<SearchQuery>> GetAllByUserId(int userId)
+        public async Task<PagedList<SearchQuery>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
-            return await GetAll().Where(x => x.UserId == userId).ToListAsync();
+            var data =  await GetAll().Where(x => x.UserId == userId)
+                                .OrderBy(x => x.DateAdded)
+                                .Skip((pagedListQueryParams.PageNumber - 1) * pagedListQueryParams.PageSize)
+                                .Take(pagedListQueryParams.PageSize)
+                                .ToListAsync();
+
+            var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
+            var hasNestPage = (count % pagedListQueryParams.PageSize) != 0;
+            var hasPreviousPage = pagedListQueryParams.PageNumber != 1;
+
+            return new PagedList<SearchQuery> { Count = count, Data = data };
+
         }
 
         public async Task<SearchQuery> GetById(int searchQueryId)

@@ -1,4 +1,5 @@
-﻿using AdvAnalyzer.WebApi.Models;
+﻿using AdvAnalyzer.WebApi.Helpers;
+using AdvAnalyzer.WebApi.Models;
 using AdvAnalyzer.WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,9 @@ namespace AdvAnalyzer.WebApi.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetAllByUserId(int userId)
+        public async Task<IActionResult> GetAllByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
         {
-            var data = await repository.GetAllByUserId(userId);
+            var data = await repository.GetAllByUserId(userId, pagedListQueryParams);
             return Ok(data);
         }
 
