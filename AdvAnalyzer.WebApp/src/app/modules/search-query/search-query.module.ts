@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchQueryContainerComponent } from './containers/search-query-container/search-query-container.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddSearchQueryComponent } from './components/add-search-query/add-search-query.component';
+import { UpdateSearchQueryDialogComponent } from './components/update-search-query-dialog/update-search-query-dialog.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
   declarations: [
     SearchQueryListComponent,
     SearchQueryContainerComponent,
-    AddSearchQueryComponent
+    AddSearchQueryComponent,
+    UpdateSearchQueryDialogComponent
   ],
   imports: [
     CommonModule,

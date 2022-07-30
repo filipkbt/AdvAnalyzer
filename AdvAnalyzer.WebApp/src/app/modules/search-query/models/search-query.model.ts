@@ -1,4 +1,5 @@
 export interface SearchQuery {
+    id: string;
     name: string;
     url: string;
     refreshFrequencyInMinutes: number;

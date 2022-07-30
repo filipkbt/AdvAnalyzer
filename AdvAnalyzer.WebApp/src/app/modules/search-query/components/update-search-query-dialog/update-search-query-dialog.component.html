@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Update Search Query</h2>
+
+<mat-dialog-content>
+
+    <form class="container" [formGroup]="formGroup">
+
+        <mat-form-field class="form-element">
+            <input matInput placeholder="Name" formControlName="name">
+            <mat-error *ngIf="!formGroup.controls['name']?.valid && formGroup.controls['name']?.touched">
+                Name is not valid
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+            <input matInput placeholder="URL" formControlName="url">
+            <mat-error *ngIf="!formGroup.controls['url']?.valid && formGroup.controls['url']?.touched">
+                Url is not valid
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element">
+            <mat-select formControlName="refreshFrequencyInMinutes" placeholder="Refresh Frequency (mins)">
+                <mat-option *ngFor="let frequency of frequencies" [value]="frequency">
+                    {{ frequency }}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="!formGroup.controls['refreshFrequencyInMinutes']?.valid && formGroup.controls['refreshFrequencyInMinutes']?.touched">
+                Refresh Frequency in minutes is not valid
+            </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox class="email-notifications-control" formControlName="sendEmailNotifications">Send Email
+            Notifications?</mat-checkbox>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!formGroup?.valid" (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -3,9 +3,11 @@ import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-param
 import { SearchQueryService } from '../../services/search-query.service';
 import { finalize, take } from 'rxjs';
 import { SearchQueryListComponent } from '../../components/search-query-list/search-query-list.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogModel } from 'src/app/shared/models/confirm-dialog.model';
+import { SearchQuery } from '../../models/search-query.model';
+import { UpdateSearchQueryDialogComponent } from '../../components/update-search-query-dialog/update-search-query-dialog.component';
 
 @Component({
   selector: 'app-search-query-container',
@@ -35,7 +37,7 @@ export class SearchQueryContainerComponent implements OnInit {
   public delete(id: number) {
     const message = `Are you sure you want to delete this Search Query?`;
 
-    const dialogData: ConfirmationDialogModel = {title: "Confirm Action", message: message};
+    const dialogData: ConfirmationDialogModel = { title: "Confirm Action", message: message };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       maxWidth: "400px",
@@ -43,14 +45,29 @@ export class SearchQueryContainerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
-      if(dialogResult) {
+      if (dialogResult) {
         this.isLoading = true;
         this.searchQueryService.delete(id).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(x => {
           this.loadData();
         })
       }
     });
+  }
 
+  public edit(searchQuery: SearchQuery): void {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.data = searchQuery;
+    dialogConfig.width = '600px';
+
+    const dialogRef = this.dialog.open(UpdateSearchQueryDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        this.searchQueryService.update(data).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(x => {
+          this.loadData();
+        })
+      }
+    );
   }
 }
