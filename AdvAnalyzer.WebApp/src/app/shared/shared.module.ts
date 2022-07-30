@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutComponent } from './layout/layout.component';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 const additionalModules = [
   MatInputModule,
@@ -52,13 +53,14 @@ const additionalModules = [
 
 @NgModule({
   declarations: [
-    LayoutComponent
+    LayoutComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
     additionalModules,
     RouterModule
 
-  ], exports: [additionalModules]
+  ], exports: [additionalModules, ConfirmationDialogComponent]
 })
 export class SharedModule { }

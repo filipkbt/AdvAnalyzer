@@ -1,7 +1,12 @@
 .search-query-list-container {
     padding: 0 15px;
+
     table {
         width: 100%;
         box-shadow: none;
+
+        td {
+            text-align: left;
+        }
     }
 }
