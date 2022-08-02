@@ -15,5 +15,6 @@ namespace AdvAnalyzer.WebApi.Models
         public User User { get; set; }
         public DateTime DateAdded { get; set; }
         public virtual ICollection<Advertisement> Advertisements { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

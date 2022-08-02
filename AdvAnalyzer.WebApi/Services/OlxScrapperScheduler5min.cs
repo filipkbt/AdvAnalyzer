@@ -47,9 +47,11 @@ namespace AdvAnalyzer.WebApi.Services
                     await Task.WhenAll(tasks);
                     var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
                     var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
+                    var notificationRepository =  scope.ServiceProvider.GetRequiredService<INotificationRepository>();
 
                     await searchQueryRepository.SaveChangesAsync();
                     await advertisementRepository.SaveChangesAsync();
+                    await notificationRepository.SaveChangesAsync();
                 }
 
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);

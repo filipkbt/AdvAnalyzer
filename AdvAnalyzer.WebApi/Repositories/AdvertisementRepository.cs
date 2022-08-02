@@ -86,6 +86,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             return await _context.SaveChangesAsync();
         }
+
         public async Task<Advertisement> Update(Advertisement advertisement)
         {
             table.Attach(advertisement);

@@ -16,6 +16,7 @@ namespace AdvAnalyzer.WebApi.Models
         public virtual DbSet<Advertisement> Advertisement { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<SearchQuery> SearchQuery { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,12 +26,15 @@ namespace AdvAnalyzer.WebApi.Models
             }
         }
 
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .HasMany(b => b.SearchQueries)
+                .WithOne(b => b.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(b => b.Notifications)
                 .WithOne(b => b.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -47,6 +51,21 @@ namespace AdvAnalyzer.WebApi.Models
             modelBuilder.Entity<Advertisement>()
                 .HasOne(b => b.SearchQuery)
                 .WithMany(b => b.Advertisements)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(b => b.SearchQuery)
+                .WithMany(b => b.Advertisements)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(b => b.SearchQuery)
+                .WithMany(b => b.Notifications)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(b => b.User)
+                .WithMany(b => b.Notifications)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

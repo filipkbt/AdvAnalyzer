@@ -4,14 +4,16 @@ using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvAnalyzer.WebApi.Migrations
 {
     [DbContext(typeof(AdvAnalyzerContext))]
-    partial class AdvAnalyzerContextModelSnapshot : ModelSnapshot
+    [Migration("20220802215039_add-search-query-to-notification")]
+    partial class addsearchquerytonotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,13 +176,13 @@ namespace AdvAnalyzer.WebApi.Migrations
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.Notification", b =>
                 {
                     b.HasOne("AdvAnalyzer.WebApi.Models.SearchQuery", "SearchQuery")
-                        .WithMany("Notifications")
+                        .WithMany()
                         .HasForeignKey("SearchQueryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AdvAnalyzer.WebApi.Models.User", "User")
-                        .WithMany("Notifications")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -204,14 +206,10 @@ namespace AdvAnalyzer.WebApi.Migrations
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.SearchQuery", b =>
                 {
                     b.Navigation("Advertisements");
-
-                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("AdvAnalyzer.WebApi.Models.User", b =>
                 {
-                    b.Navigation("Notifications");
-
                     b.Navigation("SearchQueries");
                 });
 #pragma warning restore 612, 618

@@ -15,12 +15,14 @@ namespace AdvAnalyzer.WebApi.Services
     {
         private IAdvertisementRepository _advertisementRepository;
         private ISearchQueryRepository _searchQueryRepository;
+        private INotificationRepository _notificationRepository;
         private ILogger<OlxScraper> _logger;
 
-        public OlxScraper(IAdvertisementRepository advertisementRepository, ISearchQueryRepository searchQueryRepository, ILogger<OlxScraper> logger)
+        public OlxScraper(IAdvertisementRepository advertisementRepository, ISearchQueryRepository searchQueryRepository, INotificationRepository notificationRepository, ILogger<OlxScraper> logger)
         {
             _advertisementRepository = advertisementRepository;
             _searchQueryRepository = searchQueryRepository;
+            _notificationRepository = notificationRepository;
             _logger = logger;
         }
 
@@ -128,10 +130,19 @@ namespace AdvAnalyzer.WebApi.Services
                 }
 
 
-                foreach (var advertisement in searchResults)
+                if (searchResults.Count > 0)
                 {
-                    await _advertisementRepository.InsertWithoutSave(advertisement);
+                    foreach (var advertisement in searchResults)
+                    {
+                        await _advertisementRepository.InsertWithoutSave(advertisement);
+                    }
+
+                    Notification notification = CreateNotification(searchQuery.Name, searchQuery.Id, searchQuery.UserId, searchResults.Count);
+
+                    await _notificationRepository.InsertWithoutSave(notification);
                 }
+
+
 
                 await browser.CloseAsync();
                 _logger.Log(LogLevel.Information, DateTime.Now + " finish scrap: " + searchQuery.Name);
@@ -177,6 +188,11 @@ namespace AdvAnalyzer.WebApi.Services
             }
 
             return pagesList;
+        }
+
+        private Notification CreateNotification(string searchQueryName, int searchQueryId, int userId, int newAdvertisementsCount)
+        {
+            return new Notification() { Message = newAdvertisementsCount + " new advertisements from " + searchQueryName, DateAdded = DateTime.Now, IsSeen = false, UserId = userId, SearchQueryId = searchQueryId };
         }
     }
 }

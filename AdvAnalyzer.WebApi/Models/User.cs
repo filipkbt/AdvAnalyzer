@@ -9,5 +9,6 @@ namespace AdvAnalyzer.WebApi.Models
         public byte[] Password { get; set; }
         public byte[] Salt { get; set; }
         public virtual ICollection<SearchQuery> SearchQueries { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
