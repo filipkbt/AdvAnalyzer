@@ -4,7 +4,6 @@ import { SearchQuery } from '../../models/search-query.model';
 import { SearchQueryService } from '../../services/search-query.service';
 import { finalize, take } from 'rxjs';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
-import { Constants } from 'src/app/core/constants/constants';
 @Component({
   selector: 'app-add-search-query',
   templateUrl: './add-search-query.component.html',
@@ -28,6 +27,7 @@ export class AddSearchQueryComponent implements OnInit {
 
   submit(data: SearchQuery): void {
     this.searchQueryService.create(data).pipe(take(1)).subscribe(x => {
+      this.formGroup.reset();
       this.refreshList.emit({ pageNumber: 0 });
     })
   }

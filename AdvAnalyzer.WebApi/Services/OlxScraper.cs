@@ -173,7 +173,7 @@ namespace AdvAnalyzer.WebApi.Services
 
             for (int i = 2; i <= pagesCount; i++)
             {
-                pagesList.Add(url + "/?page=" + i);
+                pagesList.Add(url + "&page=" + i);
             }
 
             return pagesList;
