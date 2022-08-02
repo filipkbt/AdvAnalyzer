@@ -10,6 +10,7 @@ namespace AdvAnalyzer.WebApi.Models
         public int Price { get; set; }
         public string Url { get; set; }
         public string ImgUrl { get; set; }
+        public string Location { get; set; }
         public bool IsFavorite { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsSeen { get; set; }

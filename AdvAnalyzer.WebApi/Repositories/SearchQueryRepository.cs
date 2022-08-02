@@ -61,6 +61,15 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         }
 
+        public async Task<List<SearchQuery>> GetAllByRefreshFrequencyInMinutes(int refreshFrequencyInMinutes)
+        {
+            var data = await GetAll().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
+                                .OrderBy(x => x.DateAdded)
+                                .ToListAsync();
+
+            return data;
+        }
+
         public async Task<SearchQuery> GetById(int searchQueryId)
         {
             return await table.FindAsync(searchQueryId);
@@ -89,6 +98,18 @@ namespace AdvAnalyzer.WebApi.Repositories
             return searchQuery;
         }
 
-  
+        public async Task<SearchQuery> UpdateWithoutSave(SearchQuery searchQuery)
+        {
+            searchQuery.DateAdded = DateTime.Now;
+            await table.AddAsync(searchQuery);
+
+            return searchQuery;
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
     }
 }

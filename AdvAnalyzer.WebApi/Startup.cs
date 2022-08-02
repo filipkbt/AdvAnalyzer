@@ -1,6 +1,7 @@
 using AdvAnalyzer.WebApi.Helpers;
 using AdvAnalyzer.WebApi.Models;
 using AdvAnalyzer.WebApi.Repositories;
+using AdvAnalyzer.WebApi.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,7 @@ namespace AdvAnalyzer.WebApi
                       });
 
             AddRepositories(services);
+            AddServices(services);
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -120,6 +122,13 @@ namespace AdvAnalyzer.WebApi
         {
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ISearchQueryRepository, SearchQueryRepository>();
+            services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+        }
+
+        private void AddServices(IServiceCollection services)
+        {
+            services.AddScoped<IOlxScraper, OlxScraper>();
+            services.AddHostedService<OlxScrapperScheduler5min>();
         }
     }
 }

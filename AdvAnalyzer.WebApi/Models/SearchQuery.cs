@@ -10,6 +10,7 @@ namespace AdvAnalyzer.WebApi.Models
         public string Url { get; set; }
         public int RefreshFrequencyInMinutes { get; set; }
         public bool SendEmailNotifications { get; set; }
+        public bool IsInitialized { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public DateTime DateAdded { get; set; }
