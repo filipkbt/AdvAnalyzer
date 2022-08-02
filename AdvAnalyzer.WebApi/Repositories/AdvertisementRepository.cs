@@ -52,16 +52,16 @@ namespace AdvAnalyzer.WebApi.Repositories
             return data;
         }
 
-        public async Task<PagedList<Advertisement>> GetAllFavoritesByUserId(int searchQueryId, PagedListQueryParams pagedListQueryParams)
+        public async Task<PagedList<Advertisement>> GetAllFavoritesByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
-            var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
-        .OrderBy(x => x.DateAdded)
-        .Where(x => x.IsFavorite == true)
-        .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
-        .Take(pagedListQueryParams.PageSize)
-        .ToListAsync();
+            var data = await GetAll().Where(x => x.UserId == userId)
+                    .OrderBy(x => x.DateAdded)
+                    .Where(x => x.IsFavorite == true)
+                    .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
+                    .Take(pagedListQueryParams.PageSize)
+                    .ToListAsync();
 
-            var count = await GetAll().Where(x => x.SearchQueryId == searchQueryId).CountAsync();
+            var count = await GetAll().Where(x => x.UserId == userId && x.IsFavorite == true).CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
         }
@@ -86,9 +86,12 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             return await _context.SaveChangesAsync();
         }
-        public async Task<Advertisement> SetIsFavorite(int advertisementId, bool isFavorite)
+        public async Task<Advertisement> Update(Advertisement advertisement)
         {
-            throw new System.NotImplementedException();
+            table.Attach(advertisement);
+            _context.Entry(advertisement).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return advertisement;
         }
 
         public async Task<bool> Delete(int advertisementId)

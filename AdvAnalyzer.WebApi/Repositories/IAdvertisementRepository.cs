@@ -16,7 +16,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public Task<Advertisement> InsertWithoutSave(Advertisement advertisement);
         public Task<int> SaveChangesAsync();
         //public Task<SearchQuery> Update(SearchQuery searchQuery);
-        public Task<Advertisement> SetIsFavorite(int advertisementId, bool isFavorite);
+        public Task<Advertisement> Update(Advertisement advertisement);
         public Task<bool> Delete(int advertisementId);
     }
 }

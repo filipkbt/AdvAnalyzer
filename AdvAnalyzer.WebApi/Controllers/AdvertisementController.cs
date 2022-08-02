@@ -13,7 +13,7 @@ namespace AspNetAngularAuth.Controllers
     [ApiController]
     public class AdvertisementController : ControllerBase
     {
-        private IAdvertisementRepository _repository = null; 
+        private IAdvertisementRepository _repository = null;
         public AdvertisementController(IAdvertisementRepository advertisementRepository)
         {
             _repository = advertisementRepository;
@@ -31,6 +31,13 @@ namespace AspNetAngularAuth.Controllers
         public async Task<IActionResult> GetAllFavoritesByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
         {
             var data = await _repository.GetAllFavoritesByUserId(userId, pagedListQueryParams);
+            return Ok(data);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(Advertisement advertisement)
+        {
+            var data = await _repository.Update(advertisement);
             return Ok(data);
         }
     }

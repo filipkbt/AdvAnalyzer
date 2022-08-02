@@ -1,3 +1,6 @@
+@import "~@angular/material/theming";
+
+
 .advertisement-list-container {
     padding: 0 15px;
 
@@ -7,6 +10,15 @@
 
         td {
             text-align: left;
+        }
+
+        tr {
+            cursor: pointer;
+            transition: background-color 0.5s ease-out 100ms
+        }
+
+        tr:hover {
+            background-color: #d3d3d3;
         }
 
         .advertisement-img {
