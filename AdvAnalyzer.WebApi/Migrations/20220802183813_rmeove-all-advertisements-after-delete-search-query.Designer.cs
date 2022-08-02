@@ -4,14 +4,16 @@ using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvAnalyzer.WebApi.Migrations
 {
     [DbContext(typeof(AdvAnalyzerContext))]
-    partial class AdvAnalyzerContextModelSnapshot : ModelSnapshot
+    [Migration("20220802183813_rmeove-all-advertisements-after-delete-search-query")]
+    partial class rmeovealladvertisementsafterdeletesearchquery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,7 +128,7 @@ namespace AdvAnalyzer.WebApi.Migrations
                     b.HasOne("AdvAnalyzer.WebApi.Models.SearchQuery", "SearchQuery")
                         .WithMany("Advertisements")
                         .HasForeignKey("SearchQueryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AdvAnalyzer.WebApi.Models.User", "User")

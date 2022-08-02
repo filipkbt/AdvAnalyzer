@@ -15,44 +15,44 @@ namespace AdvAnalyzer.WebApi.Controllers
     [ApiController]
     public class SearchQueryController : ControllerBase
     {
-        private ISearchQueryRepository repository = null;
+        private ISearchQueryRepository _repository = null;
         public SearchQueryController(ISearchQueryRepository repo)
         {
-            this.repository = repo;
+            _repository = repo;
         }
 
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetAllByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
         {
-            var data = await repository.GetAllByUserId(userId, pagedListQueryParams);
+            var data = await _repository.GetAllByUserId(userId, pagedListQueryParams);
             return Ok(data);
         }
 
         [HttpGet("{searchQueryId}")]
         public async Task<IActionResult> GetById(int searchQueryId)
         {
-            var data = await repository.GetById(searchQueryId);
+            var data = await _repository.GetById(searchQueryId);
             return Ok(data);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(SearchQuery searchQuery)
         {
-            var data = await repository.Insert(searchQuery);
+            var data = await _repository.Insert(searchQuery);
             return Ok(data);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(SearchQuery searchQuery)
         {
-            var data = await repository.Update(searchQuery);
+            var data = await _repository.Update(searchQuery);
             return Ok(data);
         }
 
         [HttpDelete("{searchQueryId}")]
         public async Task<IActionResult> Delete(int searchQueryId)
         {
-            var data = await repository.Delete(searchQueryId);
+            var data = await _repository.Delete(searchQueryId);
             return Ok(data);
         }
     }

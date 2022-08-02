@@ -8,6 +8,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
 import { ConfirmationDialogModel } from 'src/app/shared/models/confirm-dialog.model';
 import { SearchQuery } from '../../models/search-query.model';
 import { UpdateSearchQueryDialogComponent } from '../../components/update-search-query-dialog/update-search-query-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-query-container',
@@ -18,7 +19,7 @@ export class SearchQueryContainerComponent implements OnInit {
   public isLoading = false;
   @ViewChild(SearchQueryListComponent) searchQueryListComponent!: SearchQueryListComponent;
 
-  constructor(private readonly searchQueryService: SearchQueryService, public dialog: MatDialog) { }
+  constructor(private readonly searchQueryService: SearchQueryService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -69,5 +70,9 @@ export class SearchQueryContainerComponent implements OnInit {
         })
       }
     );
+  }
+
+  public goToAdvertisements(searchQueryId: number): void {
+    this.router.navigate(['site/advertisement/search-query/' + searchQueryId]);
   }
 }

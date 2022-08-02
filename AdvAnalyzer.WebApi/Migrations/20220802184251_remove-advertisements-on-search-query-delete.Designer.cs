@@ -4,14 +4,16 @@ using AdvAnalyzer.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvAnalyzer.WebApi.Migrations
 {
     [DbContext(typeof(AdvAnalyzerContext))]
-    partial class AdvAnalyzerContextModelSnapshot : ModelSnapshot
+    [Migration("20220802184251_remove-advertisements-on-search-query-delete")]
+    partial class removeadvertisementsonsearchquerydelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

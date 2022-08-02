@@ -1,26 +1,36 @@
 ﻿using System.Threading.Tasks;
+using AdvAnalyzer.WebApi.Helpers;
 using AdvAnalyzer.WebApi.Models;
+using AdvAnalyzer.WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetAngularAuth.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdvertisementController : ControllerBase
     {
-        private readonly AdvAnalyzerContext _context;
-        public AdvertisementController(AdvAnalyzerContext context)
+        private IAdvertisementRepository _repository = null; 
+        public AdvertisementController(IAdvertisementRepository advertisementRepository)
         {
-            _context = context;
+            _repository = advertisementRepository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAdvertisements()
+
+        [HttpGet("search-query/{searchQueryId}")]
+        public async Task<IActionResult> GetAllBySearchQueryId(int searchQueryId, [FromQuery] PagedListQueryParams pagedListQueryParams)
         {
-            var data = await _context.Advertisement.ToListAsync();
+            var data = await _repository.GetAllBySearchQueryId(searchQueryId, pagedListQueryParams);
+            return Ok(data);
+        }
+
+        [HttpGet("favorite/{userId}")]
+        public async Task<IActionResult> GetAllFavoritesByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
+        {
+            var data = await _repository.GetAllFavoritesByUserId(userId, pagedListQueryParams);
             return Ok(data);
         }
     }

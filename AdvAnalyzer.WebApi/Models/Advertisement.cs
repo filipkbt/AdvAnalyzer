@@ -5,7 +5,6 @@ namespace AdvAnalyzer.WebApi.Models
     public class Advertisement
     {
         public int Id { get; set; }
-
         public string Title { get; set; }
         public int Price { get; set; }
         public string Url { get; set; }

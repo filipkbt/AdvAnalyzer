@@ -1,0 +1,50 @@
+<div class="advertisement-list-container text-center">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+    <table mat-table #mytable class="my-table mat-elevation-z8" [dataSource]="dataSource">
+
+        <ng-container matColumnDef="imgUrl">
+            <th mat-header-cell *matHeaderCellDef> Img </th>
+            <td mat-cell *matCellDef="let element"> <img [src]="element.imgUrl" class="advertisement-img"> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+                <td mat-cell *matCellDef="let element"> {{element.price !== 0 ? (element.price | currency:'PLN':"":".2-2") + 'zł' : 'Zamienię'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef> Location </th>
+            <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateAdded">
+            <th mat-header-cell *matHeaderCellDef> Date Added </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateAdded | date: 'dd-MM-YYYY, HH:mm'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isFavorite">
+            <th mat-header-cell *matHeaderCellDef> Favorite? </th>
+            <td mat-cell *matCellDef="let element"> {{element.isFavorite}}
+                <!-- <button mat-icon-button matTooltip="Go to Advertisements" class="iconbutton" color="primary" 
+                (click)="goToAdvertisements(element.id)">
+                    <mat-icon aria-label="Edit"><mat-icon>announcement</mat-icon>
+                </mat-icon>
+                </button> -->
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)" aria-label="Select page">
+    </mat-paginator>
+
+</div>

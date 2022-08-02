@@ -32,17 +32,22 @@ namespace AdvAnalyzer.WebApi.Models
             modelBuilder.Entity<User>()
                 .HasMany(b => b.SearchQueries)
                 .WithOne(b => b.User)
-                .OnDelete(DeleteBehavior.ClientNoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SearchQuery>()
                 .HasMany(b => b.Advertisements)
                 .WithOne(b => b.SearchQuery)
-                .OnDelete(DeleteBehavior.ClientNoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SearchQuery>()
                 .HasOne(b => b.User)
                 .WithMany(b => b.SearchQueries)
                 .OnDelete(DeleteBehavior.ClientNoAction);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(b => b.SearchQuery)
+                .WithMany(b => b.Advertisements)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

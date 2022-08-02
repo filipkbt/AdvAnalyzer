@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdvertisementsListComponent } from './components/advertisements-list/advertisements-list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
 import { FavoriteAdvertisementsListComponent } from './components/favorite-advertisements-list/favorite-advertisements-list.component';
+import { AdvertisementListComponent } from './components/advertisement-list/advertisement-list.component';
+import { AdvertisementListContainerComponent } from './containers/advertisement-list-container/advertisement-list-container.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'search-query/:searchQueryId',
     component: LayoutComponent, children: [
-      { path: '', component: AdvertisementsListComponent },
+      { path: '', component: AdvertisementListContainerComponent },
     ]
   },
   {
@@ -23,8 +24,9 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AdvertisementsListComponent,
-    FavoriteAdvertisementsListComponent
+    FavoriteAdvertisementsListComponent,
+    AdvertisementListComponent,
+    AdvertisementListContainerComponent
   ],
   imports: [
     CommonModule,

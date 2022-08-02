@@ -52,11 +52,6 @@ namespace AdvAnalyzer.WebApi.Repositories
             return data;
         }
 
-        public async Task<PagedList<Advertisement>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<PagedList<Advertisement>> GetAllFavoritesByUserId(int searchQueryId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)

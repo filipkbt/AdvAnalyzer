@@ -37,6 +37,12 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let element" class="action-link">
+                <button mat-icon-button matTooltip="Go to Advertisements" class="iconbutton" color="primary" 
+                (click)="goToAdvertisements(element.id)">
+                    <mat-icon aria-label="Edit"><mat-icon>announcement</mat-icon>
+                </mat-icon>
+                </button>
+
                 <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary" 
                 (click)="edit(element)">
                     <mat-icon aria-label="Edit">edit</mat-icon>

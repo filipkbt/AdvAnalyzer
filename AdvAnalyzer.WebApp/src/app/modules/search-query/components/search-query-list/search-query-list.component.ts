@@ -18,11 +18,12 @@ export class SearchQueryListComponent implements OnInit {
   @Output() refreshList = new EventEmitter<PagedListQueryParams>();
   @Output() deleteClicked = new EventEmitter<number>();
   @Output() editClicked = new EventEmitter<SearchQuery>();
+  @Output() goToAdvertisementsClicked = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 5;
+  pageSize = 10;
   currentPage = 0;
   displayedColumns: string[] = ['name', 'url', 'email', 'results', 'new', 'action'];
   dataSource: MatTableDataSource<SearchQuery> = new MatTableDataSource();
@@ -49,6 +50,10 @@ export class SearchQueryListComponent implements OnInit {
 
   public edit(searchQuery: SearchQuery): void {
     this.editClicked.emit(searchQuery);
+  }
+
+  public goToAdvertisements(id: number): void {
+    this.goToAdvertisementsClicked.emit(id);
   }
 
   private loadData(): void {

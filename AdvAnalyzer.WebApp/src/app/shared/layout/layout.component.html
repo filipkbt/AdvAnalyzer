@@ -56,7 +56,14 @@
         [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" class="sidenav">
   
         <mat-nav-list>
-          <h3 mat-subheader>Home</h3>
+          <h3 mat-subheader>Welcome! </h3>
+
+          <a mat-list-item [routerLink]="['/site/notification']">
+            <mat-icon mat-list-icon>
+              dashboard
+            </mat-icon>
+            <p mat-line> Dashboard </p>
+          </a>
 
           <a mat-list-item [routerLink]="['/site/notification']">
             <mat-icon mat-list-icon>
@@ -78,14 +85,6 @@
             </mat-icon>
             <p mat-line> Favorite Advertisements </p>
           </a>
-
-          <a mat-list-item [routerLink]="['/site/advertisement']">
-            <mat-icon mat-list-icon>
-              announcement
-            </mat-icon>
-            <p mat-line> Advertisements </p>
-          </a>
-
   
           <a id="push-bottom" mat-list-item >
             <mat-icon mat-list-icon>
