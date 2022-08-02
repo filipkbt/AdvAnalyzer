@@ -17,7 +17,7 @@
             transition: background-color 0.5s ease-out 100ms
         }
 
-        tr:hover {
+        tr:hover:not(:first-child) {
             background-color: #d3d3d3;
         }
 
