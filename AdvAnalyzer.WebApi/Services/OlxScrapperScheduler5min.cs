@@ -1,4 +1,5 @@
-﻿using AdvAnalyzer.WebApi.Models;
+﻿using AdvAnalyzer.WebApi.Dtos;
+using AdvAnalyzer.WebApi.Models;
 using AdvAnalyzer.WebApi.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,22 +41,70 @@ namespace AdvAnalyzer.WebApi.Services
                 {
                     foreach (var searchQuery in searchQueries)
                     {
+                        var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
+                        var taskGetLast52 = advertisementRepository.GetLast52AdvertisementsUrlBySearchQueryId(searchQuery.Id);
+                        await Task.WhenAll(taskGetLast52);
+                        var result52 = ((Task<List<string>>)taskGetLast52).Result;
                         var olxScraper = scope.ServiceProvider.GetRequiredService<IOlxScraper>();
-
-                        tasks.Add(olxScraper.TryParseOlx(searchQuery));
+                        tasks.Add(olxScraper.TryParseOlx(searchQuery, result52));
                     }
                     await Task.WhenAll(tasks);
-                    var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
-                    var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
-                    var notificationRepository =  scope.ServiceProvider.GetRequiredService<INotificationRepository>();
 
-                    await searchQueryRepository.SaveChangesAsync();
-                    await advertisementRepository.SaveChangesAsync();
-                    await notificationRepository.SaveChangesAsync();
+                    List<OlxScraperResultDto> results = new List<OlxScraperResultDto>();
+                    List<Advertisement> advertisementsToInsert = new List<Advertisement>();
+                    List<Notification> notificationsToInsert = new List<Notification>();
+                    List<SearchQuery> searchQueriesToUpdate = new List<SearchQuery>();
+
+                    foreach (var task in tasks)
+                    {
+                        var result = ((Task<OlxScraperResultDto>)task).Result;
+
+                        if (result != null)
+                        {
+                            advertisementsToInsert.AddRange(result.Advertisements);
+                            if (result.Notification != null) notificationsToInsert.Add(result.Notification);
+                            if (result.UpdateSearchQueryIsInitialized == true)
+                            {
+                                SearchQuery searchQueryToUpdate = searchQueries.Find(x => x.Id == result.SearchQueryId);
+                                searchQueryToUpdate.IsInitialized = true;
+                                searchQueriesToUpdate.Add(searchQueryToUpdate);
+                            }
+
+                            results.Add(result);
+                        }
+                    }
+
+                    await SaveResults(scope, advertisementsToInsert, notificationsToInsert, searchQueriesToUpdate);
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
                 _logger.Log(LogLevel.Information, "finish scraping");
+            }
+        }
+
+        private async Task SaveResults(IServiceScope scope, List<Advertisement> advertisements, List<Notification> notifications, List<SearchQuery> searchQueries)
+        {
+
+            var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
+            var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
+            var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
+
+            foreach (var advertisement in advertisements)
+            {
+                await advertisementRepository.InsertWithoutSave(advertisement);
+            }
+            await advertisementRepository.SaveChangesAsync();
+
+            foreach (var notification in notifications)
+            {
+                await notificationRepository.InsertWithoutSave(notification);
+            }
+
+            await notificationRepository.SaveChangesAsync();
+
+            foreach (var searchQueryToUpdate in searchQueries)
+            {
+                await searchQueryRepository.Update(searchQueryToUpdate);
             }
         }
     }

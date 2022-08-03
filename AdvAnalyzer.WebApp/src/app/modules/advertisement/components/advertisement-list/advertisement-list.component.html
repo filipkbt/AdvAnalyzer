@@ -32,7 +32,7 @@
             <th mat-header-cell *matHeaderCellDef> Favorite </th>
             <td mat-cell *matCellDef="let element"> 
                 <button mat-icon-button matTooltip="Favorite" class="iconbutton" color="primary" 
-                (click)="setIsFavorite(element)">
+                (click)="setIsFavorite($event, element)">
                     <mat-icon aria-label="Edit"><mat-icon>{{element.isFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
                 </mat-icon>
                 </button>

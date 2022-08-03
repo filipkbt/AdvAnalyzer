@@ -6,7 +6,7 @@ namespace AdvAnalyzer.WebApi.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string Url { get; set; }
         public string ImgUrl { get; set; }
         public string Location { get; set; }

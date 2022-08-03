@@ -51,6 +51,10 @@ mat-sidenav {
     height: 5px;
 }
 
+a.mat-list-item {
+    transition: background-color 0.4s ease-out 100ms
+}
+
 a.mat-list-item.active {
     background: rgba(0, 0, 0, .04);
 }

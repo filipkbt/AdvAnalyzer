@@ -46,7 +46,8 @@ export class AdvertisementListComponent implements OnInit {
     this.goToAdvertisementClicked.emit(url);
   }
 
-  public setIsFavorite(advertisement: Advertisement): void {
+  public setIsFavorite(event: any, advertisement: Advertisement): void {
+    event.stopPropagation();
     this.setIsFavoriteClicked.emit(advertisement);
   }
 
