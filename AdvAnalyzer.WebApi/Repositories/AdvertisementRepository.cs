@@ -32,6 +32,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
                     .OrderBy(x => x.DateAdded)
+                    .Where(x => x.IsAddedAtFirstIteration == false)
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
                     .ToListAsync();
@@ -80,6 +81,14 @@ namespace AdvAnalyzer.WebApi.Repositories
             await table.AddAsync(advertisement);
 
             return advertisement;
+        }
+
+        public async Task<List<Advertisement>> InsertMany(List<Advertisement> advertisements)
+        {
+            advertisements.ForEach(x => x.DateAdded = DateTime.Now);
+            await table.AddRangeAsync(advertisements);
+            await _context.SaveChangesAsync();
+            return advertisements;
         }
 
         public async Task<int> SaveChangesAsync()

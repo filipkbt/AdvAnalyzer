@@ -29,7 +29,6 @@ namespace AdvAnalyzer.WebApi.Services
             var totalCountNumber = 0;
             int advertisementsPerPage = 52;
             List<string> pagesList = new List<string>();
-            var searchResultsFromCurrentPage = new List<Advertisement>();
             var searchResults = new List<Advertisement>();
             Notification notification = null;
             bool isLastPageToScrap = false;
@@ -61,12 +60,16 @@ namespace AdvAnalyzer.WebApi.Services
                     else
                     {
                         pagesList = CreatePagesList(advertisementsPerPage, searchQuery.Url);
-                        olxScraperResult.UpdateSearchQueryIsInitialized = true;
                         olxScraperResult.SearchQueryId = searchQuery.Id;
+                        olxScraperResult.UpdateSearchQueryIsInitialized = true;
                     }
 
                     for (int c = 0; c < pagesList.Count; c++)
                     {
+                        _logger.Log(LogLevel.Information, DateTime.Now + "Start Search Query: " + searchQuery.Id + " " + searchQuery.Name + "Page: " + (c + 1));
+
+                        var searchResultsFromCurrentPage = new List<Advertisement>();
+
                         if (!isLastPageToScrap)
                         {
                             var htmlAsTask2 = Load(pagesList[c], browser, searchQuery.Id);
@@ -88,11 +91,14 @@ namespace AdvAnalyzer.WebApi.Services
                                     if (resultRiders[i].SelectSingleNode(".//p[contains(@data-testid, 'ad-price')]//text()").InnerText == "Zamienię")
                                     {
                                         price = 0;
+                                    } 
+                                    else if(resultRiders[i].SelectSingleNode(".//p[contains(@data-testid, 'ad-price')]//text()").InnerText == "Za darmo")
+                                    {
+                                        price = -1;
                                     }
                                     else
                                     {
                                         price = double.Parse((resultRiders[i].SelectSingleNode(".//p[contains(@data-testid, 'ad-price')]//text()")).InnerText.Trim().Replace("zł", "").Replace(" ", ""));
-
                                     }
                                 }
 
@@ -130,11 +136,17 @@ namespace AdvAnalyzer.WebApi.Services
                             {
                                 searchResults.Add(searchResult);
                             }
+                            _logger.Log(LogLevel.Information, DateTime.Now + "Finish Search Query: " + searchQuery.Id + " " + searchQuery.Name + "Page: " + (c + 1));
                         }
                     }
-                    if (searchResults.Count > 0)
+                    if (searchResults.Count > 0 && searchQuery.IsInitialized == true)
                     {
                         notification = CreateNotification(searchQuery.Name, searchQuery.Id, searchQuery.UserId, searchResults.Count);
+                    }
+
+                    if (searchQuery.IsInitialized == false)
+                    {
+                        searchResults.ForEach(x => x.IsAddedAtFirstIteration = true);
                     }
 
                     olxScraperResult.Advertisements = searchResults;
@@ -177,7 +189,9 @@ namespace AdvAnalyzer.WebApi.Services
         {
             List<string> pagesList = new List<string>();
 
-            var pagesCount = totalCountNumber / 52 + 1;
+            var pagesCount = totalCountNumber / 52;
+
+            if (totalCountNumber % 52 != 0) pagesCount += 1;
 
             pagesList.Add(url);
 

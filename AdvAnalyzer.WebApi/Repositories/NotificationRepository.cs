@@ -58,6 +58,14 @@ namespace AdvAnalyzer.WebApi.Repositories
             return notification;
         }
 
+        public async Task<List<Notification>> InsertMany(List<Notification> notifications)
+        {
+            notifications.ForEach(x => x.DateAdded = DateTime.Now);
+            await table.AddRangeAsync(notifications);
+            await _context.SaveChangesAsync();
+            return notifications;
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();

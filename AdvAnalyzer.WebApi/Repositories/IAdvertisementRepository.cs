@@ -14,6 +14,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public Task<PagedList<Advertisement>> GetAllFavoritesByUserId(int userId, PagedListQueryParams pagedListQueryParams);
         public Task<Advertisement> Insert(Advertisement advertisement);
         public Task<Advertisement> InsertWithoutSave(Advertisement advertisement);
+        public Task<List<Advertisement>> InsertMany(List<Advertisement> advertisements);
         public Task<int> SaveChangesAsync();
         public Task<Advertisement> Update(Advertisement advertisement);
         public Task<bool> Delete(int advertisementId);

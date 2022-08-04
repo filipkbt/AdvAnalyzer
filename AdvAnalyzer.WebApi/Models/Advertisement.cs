@@ -17,5 +17,6 @@ namespace AdvAnalyzer.WebApi.Models
         public User User { get; set; }
         public int SearchQueryId { get; set; }
         public SearchQuery SearchQuery { get; set; }
+        public bool IsAddedAtFirstIteration { get; set; }
     }
 }

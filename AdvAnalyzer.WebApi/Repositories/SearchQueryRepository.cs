@@ -52,8 +52,8 @@ namespace AdvAnalyzer.WebApi.Repositories
             {
                 var searchQueryDto = _mapper.Map<SearchQuery, SearchQueryDto>(searchQuery);
 
-                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id).CountAsync();
-                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false).CountAsync();
+                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsAddedAtFirstIteration == false).CountAsync();
+                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false && x.IsAddedAtFirstIteration == false).CountAsync();
                 searchQueryDtoList.Add(searchQueryDto);
             }
 

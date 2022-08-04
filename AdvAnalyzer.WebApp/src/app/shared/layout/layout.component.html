@@ -21,7 +21,7 @@
       <mat-menu #notificationMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
   
         <a *ngFor="let notification of notifications" [routerLink]="['/site/advertisement/search-query', notification.searchQueryId]" mat-menu-item>
-          <span>{{notification.message}}}</span>
+          <span>{{notification.message}}</span>
         </a>
   
       </mat-menu>

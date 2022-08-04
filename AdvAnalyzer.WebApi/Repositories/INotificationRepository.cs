@@ -8,6 +8,7 @@ namespace AdvAnalyzer.WebApi.Repositories
     {
         public Task<List<Notification>> GetAllNotSeenByUserId(int userId);
         public Task<Notification> InsertWithoutSave(Notification notification);
+        public Task<List<Notification>> InsertMany(List<Notification> notification);
         public Task<int> SaveChangesAsync();
     }
 }

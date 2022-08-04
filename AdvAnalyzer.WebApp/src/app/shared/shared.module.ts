@@ -27,6 +27,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ShowIfTruncatedDirective } from './directives/show-if-truncated.directive';
 
 const additionalModules = [
   MatInputModule,
@@ -58,7 +59,8 @@ const additionalModules = [
 @NgModule({
   declarations: [
     LayoutComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ShowIfTruncatedDirective
   ],
   imports: [
     CommonModule,
