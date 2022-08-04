@@ -1,0 +1,21 @@
+.notification-list-container {
+    padding: 0 15px;
+
+    table {
+        width: 100%;
+        box-shadow: none;
+        table-layout: fixed;
+
+        td {
+            text-align: left;
+        }
+
+        th,
+        td {
+            overflow: hidden;
+            width: auto;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}

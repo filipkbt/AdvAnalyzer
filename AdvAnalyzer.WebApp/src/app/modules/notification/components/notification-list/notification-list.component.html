@@ -1,1 +1,24 @@
-<p>notification-list works!</p>
+<div class="notification-list-container text-center">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+    <table mat-table #mytable class="my-table mat-elevation-z8" [dataSource]="dataSource">
+
+        <ng-container matColumnDef="dateAdded">
+            <th mat-header-cell *matHeaderCellDef> Date Added </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="!element.isSeen">fiber_new</mat-icon> {{element.dateAdded | date: 'dd-MM-YYYY, HH:mm'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="message">
+            <th mat-header-cell *matHeaderCellDef> Message </th>
+            <td mat-cell *matCellDef="let element"> {{element.message}}  </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+    </table>
+
+    <mat-paginator #paginator [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)" aria-label="Select page">
+    </mat-paginator>
+
+</div>

@@ -61,8 +61,6 @@ export class AdvertisementListContainerComponent implements OnInit {
 
   public setIsFavorite(advertisement: Advertisement): void {
     advertisement.isFavorite = !advertisement.isFavorite;
-    this.advertisementService.update(advertisement).pipe(take(1)).subscribe(x => {
-
-    })
+    this.advertisementService.update(advertisement).pipe(take(1));
   }
 }

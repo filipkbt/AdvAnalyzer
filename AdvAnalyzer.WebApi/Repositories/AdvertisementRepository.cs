@@ -31,7 +31,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<PagedList<Advertisement>> GetAllBySearchQueryId(int searchQueryId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
-                    .OrderBy(x => x.DateAdded)
+                    .OrderByDescending(x => x.DateAdded)
                     .Where(x => x.IsAddedAtFirstIteration == false)
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
@@ -45,7 +45,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<List<string>> GetLast52AdvertisementsUrlBySearchQueryId(int searchQueryId)
         {
             var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
-                    .OrderBy(x => x.DateAdded)
+                    .OrderByDescending(x => x.DateAdded)
                     .Take(52)
                     .Select(x => x.Url)
                     .ToListAsync();
@@ -56,7 +56,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<PagedList<Advertisement>> GetAllFavoritesByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.UserId == userId)
-                    .OrderBy(x => x.DateAdded)
+                    .OrderByDescending(x => x.DateAdded)
                     .Where(x => x.IsFavorite == true)
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)

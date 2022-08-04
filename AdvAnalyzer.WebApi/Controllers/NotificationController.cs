@@ -1,4 +1,5 @@
 ﻿
+using AdvAnalyzer.WebApi.Helpers;
 using AdvAnalyzer.WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,13 @@ namespace AdvAnalyzer.WebApi.Controllers
         public async Task<IActionResult> GetAllNotSeenByUserId(int userId)
         {
             var data = await _repository.GetAllNotSeenByUserId(userId);
+            return Ok(data);
+        }
+
+        [HttpGet("user/{userId}/all")]
+        public async Task<IActionResult> GetAllByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
+        {
+            var data = await _repository.GetAllByUserId(userId, pagedListQueryParams);
             return Ok(data);
         }
 

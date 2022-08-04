@@ -39,7 +39,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<PagedList<SearchQueryDto>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.UserId == userId)
-                                .OrderBy(x => x.DateAdded)
+                                .OrderByDescending(x => x.DateAdded)
                                 .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                                 .Take(pagedListQueryParams.PageSize)
                                 .ToListAsync();
@@ -64,7 +64,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<List<SearchQuery>> GetAllByRefreshFrequencyInMinutes(int refreshFrequencyInMinutes)
         {
             var data = await GetAll().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
-                                .OrderBy(x => x.DateAdded)
+                                .OrderByDescending(x => x.DateAdded)
                                 .ToListAsync();
 
             return data;

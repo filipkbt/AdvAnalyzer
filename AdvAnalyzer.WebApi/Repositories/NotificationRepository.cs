@@ -30,7 +30,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<PagedList<Notification>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.UserId == userId)
-                    .OrderBy(x => x.DateAdded)
+                    .OrderByDescending(x => x.DateAdded)
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
                     .ToListAsync();
@@ -44,7 +44,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<List<Notification>> GetAllNotSeenByUserId(int userId)
         {
             var data = await GetAll().Where(x => x.UserId == userId && x.IsSeen == false)
-                        .OrderBy(x => x.DateAdded)
+                        .OrderByDescending(x => x.DateAdded)
                         .ToListAsync();
 
             return data;
