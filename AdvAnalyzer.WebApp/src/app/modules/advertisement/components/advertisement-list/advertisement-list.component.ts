@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
+import { debounce, Subscription, debounceTime } from 'rxjs';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
 import { Advertisement } from '../../models/advertisement.model';
 
@@ -11,7 +12,6 @@ import { Advertisement } from '../../models/advertisement.model';
   styleUrls: ['./advertisement-list.component.scss']
 })
 export class AdvertisementListComponent implements OnInit {
-
   @Input() isLoading: boolean = false;
 
   @Output() goToAdvertisementClicked = new EventEmitter<string>();
@@ -25,6 +25,11 @@ export class AdvertisementListComponent implements OnInit {
   currentPage = 0;
   displayedColumns: string[] = ['imgUrl', 'title', 'price', 'location', 'dateAdded', 'isFavorite'];
   dataSource: MatTableDataSource<Advertisement> = new MatTableDataSource();
+  searchForm = new FormGroup({
+    searchTerm: new FormControl('')
+  })
+  private searchSubscription: Subscription | undefined;
+  private searchTerm = '';
 
   constructor() { }
 
@@ -34,6 +39,14 @@ export class AdvertisementListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+
+    this.searchSubscription = this.searchForm.get('searchTerm')?.valueChanges.pipe(debounceTime(300)).subscribe(term => {
+      if (term) {
+        this.currentPage = 0;
+        this.searchTerm = term;
+        this.loadData();
+      }
+    })
   }
 
   public pageChanged(event: PageEvent): void {
@@ -52,7 +65,7 @@ export class AdvertisementListComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.refreshList.emit({ pageNumber: this.currentPage, pageSize: this.pageSize });
+    this.refreshList.emit({ pageNumber: this.currentPage, pageSize: this.pageSize, searchTerm: this.searchTerm ?? '' });
   }
 
 }

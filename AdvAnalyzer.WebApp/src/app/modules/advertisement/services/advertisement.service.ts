@@ -14,24 +14,27 @@ export class AdvertisementService {
 
   constructor(private http: HttpClient, private readonly authService: AuthService) { }
 
-  getAllBySearchQueryId(searchQueryId: number, pageNumber: number, pageSize: number): Observable<PagedList> {
+  getAllBySearchQueryId(searchQueryId: number, pageNumber: number, pageSize: number, searchTerm: string): Observable<PagedList> {
     let params = new HttpParams();
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
+    params = params.append('searchTerm', searchTerm);
     return this.http.get<PagedList>(environment.apiUrl + 'advertisement/search-query/' + searchQueryId, { params: params });
   }
 
-  getAllFavoritesByUserId(pageNumber: number, pageSize: number): Observable<PagedList> {
+  getAllFavoritesByUserId(pageNumber: number, pageSize: number, searchTerm: string): Observable<PagedList> {
     let params = new HttpParams();
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
+    params = params.append('searchTerm', searchTerm);
     return this.http.get<PagedList>(environment.apiUrl + 'advertisement/favorite/' + this.userId, { params: params });
   }
 
-  getAllByUserId(pageNumber: number, pageSize: number): Observable<PagedList> {
+  getAllByUserId(pageNumber: number, pageSize: number, searchTerm: string): Observable<PagedList> {
     let params = new HttpParams();
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
+    params = params.append('searchTerm', searchTerm);
     return this.http.get<PagedList>(environment.apiUrl + 'advertisement/all/' + this.userId, { params: params });
   }
 

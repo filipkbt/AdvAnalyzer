@@ -39,7 +39,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.launchRipple();
     })
 
-    interval(2 * 5 * 1000)
+    interval(2 * 60 * 1000)
       .pipe(
         mergeMap(() => this.notificationService.getAllNotSeenByUserId())
       )
