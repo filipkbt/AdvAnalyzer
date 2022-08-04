@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdvertisementService } from '../../services/advertisement.service';
 import { finalize, take } from 'rxjs';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
 import { AdvertisementListComponent } from '../../components/advertisement-list/advertisement-list.component';
 import { Advertisement } from '../../models/advertisement.model';
 import { ToastrService } from 'ngx-toastr';
-import { LocationStrategy } from '@angular/common';
+import { Constants } from 'src/app/core/constants/constants';
 
 @Component({
   selector: 'app-advertisement-list-container',
@@ -19,34 +19,52 @@ export class AdvertisementListContainerComponent implements OnInit {
 
   @ViewChild(AdvertisementListComponent) searchQueryListComponent!: AdvertisementListComponent;
 
-  constructor(private readonly advertisementService: AdvertisementService, private route: ActivatedRoute, private readonly toastr: ToastrService, private url: LocationStrategy) { }
+  constructor(private readonly router: Router, private readonly advertisementService: AdvertisementService, private route: ActivatedRoute, private readonly toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.route.params.pipe(take(1)).subscribe(params => {
-      this.searchQueryId = params['searchQueryId'];
-    });
   }
 
   public loadData(pagedListQueryParams?: PagedListQueryParams): void {
     this.isLoading = true;
-    this.searchQueryId ? this.getAllBySearchQueryId(pagedListQueryParams) : this.getAllFavoritesByUserId(pagedListQueryParams);
+    if (this.router.url.includes('/site/advertisement/all')) {
+      this.getAllByUserId();
+    }
+    else if (this.router.url.includes('/site/advertisement/favorite')) {
+      this.getAllFavoritesByUserId(pagedListQueryParams);
+    }
+    else {
+      this.route.params.pipe(take(1)).subscribe(params => {
+        this.searchQueryId = params['searchQueryId'];
+      });
+      this.getAllBySearchQueryId(pagedListQueryParams);
+    }
   }
 
   public getAllBySearchQueryId(pagedListQueryParams?: PagedListQueryParams): void {
-    this.advertisementService.getAllBySearchQueryId(this.searchQueryId, pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent.pageSize).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
+    this.advertisementService.getAllBySearchQueryId(this.searchQueryId, pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage;
+        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
         this.searchQueryListComponent.paginator.length = data.count;
       });
     })
   }
 
   public getAllFavoritesByUserId(pagedListQueryParams?: PagedListQueryParams): void {
-    this.advertisementService.getAllFavoritesByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent.pageSize).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
+    this.advertisementService.getAllFavoritesByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage;
+        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
+        this.searchQueryListComponent.paginator.length = data.count;
+      });
+    })
+  }
+
+  public getAllByUserId(pagedListQueryParams?: PagedListQueryParams): void {
+    this.advertisementService.getAllByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
+      this.searchQueryListComponent.dataSource.data = data.data;
+      setTimeout(() => {
+        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
         this.searchQueryListComponent.paginator.length = data.count;
       });
     })

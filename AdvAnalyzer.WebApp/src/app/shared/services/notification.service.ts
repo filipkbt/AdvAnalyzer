@@ -15,4 +15,8 @@ export class NotificationService {
   getAllNotSeenByUserId(): Observable<Notification[]> {
     return this.http.get<Notification[]>(environment.apiUrl + 'notification/user/' + this.userId + '/not-seen');
   }
+
+  markAllNotificationAsSeenByUserId(): Observable<Notification[]>{
+    return this.http.get<Notification[]>(environment.apiUrl + 'notification/user/' + this.userId + '/mark-as-seen');
+  }
 }

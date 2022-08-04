@@ -21,7 +21,7 @@ export class AdvertisementListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 25;
+  pageSize = 10;
   currentPage = 0;
   displayedColumns: string[] = ['imgUrl', 'title', 'price', 'location', 'dateAdded', 'isFavorite'];
   dataSource: MatTableDataSource<Advertisement> = new MatTableDataSource();

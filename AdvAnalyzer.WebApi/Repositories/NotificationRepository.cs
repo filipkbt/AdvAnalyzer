@@ -50,7 +50,20 @@ namespace AdvAnalyzer.WebApi.Repositories
             return data;
         }
 
-        public async Task<Notification> InsertWithoutSave(Notification notification)
+        public async Task<List<Notification>> MarkAllNotificationAsSeenByUserId(int userId)
+        {
+            var data = await GetAll().Where(x => x.UserId == userId && x.IsSeen == false)
+                            .OrderByDescending(x => x.DateAdded)
+                            .ToListAsync();
+
+            data.ForEach(x => x.IsSeen = true);
+
+            table.UpdateRange(data);
+            await _context.SaveChangesAsync();
+            return data;
+        }
+
+    public async Task<Notification> InsertWithoutSave(Notification notification)
         {
             notification.DateAdded = DateTime.Now;
             await table.AddAsync(notification);

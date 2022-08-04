@@ -28,6 +28,13 @@ export class AdvertisementService {
     return this.http.get<PagedList>(environment.apiUrl + 'advertisement/favorite/' + this.userId, { params: params });
   }
 
+  getAllByUserId(pageNumber: number, pageSize: number): Observable<PagedList> {
+    let params = new HttpParams();
+    params = params.append('pageNumber', pageNumber);
+    params = params.append('pageSize', pageSize);
+    return this.http.get<PagedList>(environment.apiUrl + 'advertisement/all/' + this.userId, { params: params });
+  }
+
   update(advertisement: Advertisement): Observable<Advertisement> {
     return this.http.put<Advertisement>(environment.apiUrl + 'advertisement', advertisement);
   }

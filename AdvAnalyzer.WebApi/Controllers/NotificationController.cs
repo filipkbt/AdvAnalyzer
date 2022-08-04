@@ -32,6 +32,13 @@ namespace AdvAnalyzer.WebApi.Controllers
             return Ok(data);
         }
 
+        [HttpGet("user/{userId}/mark-as-seen")]
+        public async Task<IActionResult> MarkAllNotificationAsSeenByUserId(int userId)
+        {
+            var data = await _repository.MarkAllNotificationAsSeenByUserId(userId);
+            return Ok(data);
+        }
+
         //[HttpGet("{searchQueryId}")]
         //public async Task<IActionResult> GetById(int searchQueryId)
         //{

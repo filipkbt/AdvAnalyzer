@@ -34,6 +34,13 @@ namespace AspNetAngularAuth.Controllers
             return Ok(data);
         }
 
+        [HttpGet("all/{userId}")]
+        public async Task<IActionResult> GetAllByUserId(int userId, [FromQuery] PagedListQueryParams pagedListQueryParams)
+        {
+            var data = await _repository.GetAllByUserId(userId, pagedListQueryParams);
+            return Ok(data);
+        }
+
         [HttpPut]
         public async Task<IActionResult> Update(Advertisement advertisement)
         {

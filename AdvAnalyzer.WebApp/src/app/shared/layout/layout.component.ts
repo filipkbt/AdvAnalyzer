@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { take } from 'rxjs';
 import { Notification } from '../models/notification.model';
+import { MatBadge } from '@angular/material/badge';
+import { MatMenu } from '@angular/material/menu';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -16,9 +18,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
   public newNotificationsCount: number = 0;
   public notifications: Notification[] = [];
   private _mobileQueryListener: () => void;
+  private cleanNotificationsList = false;
   mobileQuery: MediaQueryList;
 
   @ViewChild(MatRipple) ripple!: MatRipple;
+  @ViewChild(MatBadge) badge!: MatBadge;
+  @ViewChild(MatMenu) menu!: MatMenu;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher, public authService: AuthService, private router: Router, private readonly notificationService: NotificationService) {
     this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
@@ -43,6 +48,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
           this.newNotificationsCount = data.length;
           this.notifications = data;
           this.launchRipple();
+          this.badge.disabled = true;
         }
       })
   }
@@ -60,11 +66,27 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   launchRipple() {
     const rippleRef = this.ripple.launch({
-      persistent: true,
-      centered: true
+      persistent: true
     });
 
     // Fade out the ripple later.
     rippleRef.fadeOut();
+  }
+
+  handleMenuClick(isOpened: boolean): void {
+    if (isOpened) {
+      this.markAllNotificationsAsSeen();
+      this.cleanNotificationsList = true;
+    }
+    if (isOpened && this.cleanNotificationsList) {
+      this.notifications = [];
+      this.cleanNotificationsList = false;
+    }
+  }
+
+  private markAllNotificationsAsSeen(): void {
+    this.notificationService.markAllNotificationAsSeenByUserId().pipe(take(1)).subscribe(() => {
+      this.newNotificationsCount = 0
+    })
   }
 }

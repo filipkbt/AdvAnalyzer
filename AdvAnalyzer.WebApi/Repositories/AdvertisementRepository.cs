@@ -28,6 +28,20 @@ namespace AdvAnalyzer.WebApi.Repositories
             return table.AsQueryable();
         }
 
+        public async Task<PagedList<Advertisement>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
+        {
+            var data = await GetAll().Where(x => x.UserId == userId)
+                    .OrderByDescending(x => x.DateAdded)
+                    .Where(x => x.IsAddedAtFirstIteration == false)
+                    .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
+                    .Take(pagedListQueryParams.PageSize)
+                    .ToListAsync();
+
+            var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
+
+            return new PagedList<Advertisement> { Count = count, Data = data };
+        }
+
         public async Task<PagedList<Advertisement>> GetAllBySearchQueryId(int searchQueryId, PagedListQueryParams pagedListQueryParams)
         {
             var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)

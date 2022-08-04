@@ -11,6 +11,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public Task<PagedList<Notification>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams);
         public Task<Notification> InsertWithoutSave(Notification notification);
         public Task<List<Notification>> InsertMany(List<Notification> notification);
+        public Task<List<Notification>> MarkAllNotificationAsSeenByUserId(int userId);
         public Task<int> SaveChangesAsync();
     }
 }

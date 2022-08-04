@@ -18,6 +18,12 @@ const routes: Routes = [
     component: LayoutComponent, children: [
       { path: '', component: AdvertisementListContainerComponent  },
     ]
+  },
+  {
+    path: 'all',
+    component: LayoutComponent, children: [
+      { path: '', component: AdvertisementListContainerComponent  },
+    ]
   }
 ];
 

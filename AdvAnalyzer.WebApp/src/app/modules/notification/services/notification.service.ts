@@ -21,3 +21,5 @@ export class NotificationService {
     return this.http.get<PagedList>(environment.apiUrl + 'notification/user/' + this.userId + '/all', { params: params });
   }
 }
+
+
