@@ -18,7 +18,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   public newNotificationsCount: number = 0;
   public notifications: Notification[] = [];
   private _mobileQueryListener: () => void;
-  private cleanNotificationsList = false;
   mobileQuery: MediaQueryList;
 
   @ViewChild(MatRipple) ripple!: MatRipple;
@@ -76,13 +75,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   handleMenuClick(isOpened: boolean): void {
-    if (isOpened) {
-      this.notifications = [];
-      this.cleanNotificationsList = false;
-    }
-    if (isOpened && this.cleanNotificationsList) {
+    if (!isOpened) {
       this.markAllNotificationsAsSeen();
-      this.cleanNotificationsList = true;
+      this.notifications = [];
     }
   }
 

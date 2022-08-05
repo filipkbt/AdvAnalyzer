@@ -14,7 +14,7 @@
   
       <span class="navbar-spacer"></span>
   
-      <button matRipple mat-icon-button [matMenuTriggerFor]="notificationMenu" (menuOpened)="handleMenuClick(true)" (menuClosed)="handleMenuClick(false)">
+      <button matRipple mat-icon-button [matMenuTriggerFor]="notificationMenu" (menuClosed)="handleMenuClick(false)">
         <mat-icon [matBadge]="newNotificationsCount" matBadgeColor="accent" [matBadgeHidden]="newNotificationsCount === 0">notifications</mat-icon>
       </button>
       <mat-menu #notificationMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false" >
