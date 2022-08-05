@@ -5,10 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
 import { NotificationListContainerComponent } from './containers/notification-list-container/notification-list-container.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'all',
+    canActivate: [AuthGuard],
     component: LayoutComponent, children: [
       { path: '', component: NotificationListContainerComponent },
     ]
@@ -24,6 +26,9 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes)
+  ], exports: [
+    NotificationListComponent,
+    NotificationListContainerComponent
   ]
 })
 export class NotificationModule { }

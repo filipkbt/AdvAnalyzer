@@ -11,13 +11,14 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationListComponent implements OnInit {
   @Input() isLoading: boolean = false;
+  @Input() displayPaginator = true;
+  @Input() pageSize = 25;
 
   @Output() refreshList = new EventEmitter<PagedListQueryParams>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 25;
   currentPage = 0;
   displayedColumns: string[] = ['dateAdded', 'message'];
   dataSource: MatTableDataSource<Notification> = new MatTableDataSource();
@@ -29,7 +30,7 @@ export class NotificationListComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    if (this.displayPaginator)  this.dataSource.paginator = this.paginator;
   }
 
   public pageChanged(event: PageEvent): void {

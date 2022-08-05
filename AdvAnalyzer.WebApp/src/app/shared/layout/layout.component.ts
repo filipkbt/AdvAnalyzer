@@ -59,7 +59,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
     this.authService.isAuthenticated = false;
     this.router.navigate(['site/auth']);
   }

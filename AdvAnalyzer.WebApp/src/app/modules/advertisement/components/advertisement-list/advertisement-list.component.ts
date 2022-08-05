@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,8 +11,10 @@ import { Advertisement } from '../../models/advertisement.model';
   templateUrl: './advertisement-list.component.html',
   styleUrls: ['./advertisement-list.component.scss']
 })
-export class AdvertisementListComponent implements OnInit {
+export class AdvertisementListComponent implements OnInit, OnDestroy {
   @Input() isLoading: boolean = false;
+  @Input() displayPaginator = true;
+  @Input() pageSize = 25;
 
   @Output() goToAdvertisementClicked = new EventEmitter<string>();
   @Output() setIsFavoriteClicked = new EventEmitter<Advertisement>();
@@ -21,7 +23,6 @@ export class AdvertisementListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageSize = 10;
   currentPage = 0;
   displayedColumns: string[] = ['imgUrl', 'title', 'price', 'location', 'dateAdded', 'isFavorite'];
   dataSource: MatTableDataSource<Advertisement> = new MatTableDataSource();
@@ -37,8 +38,12 @@ export class AdvertisementListComponent implements OnInit {
     this.loadData();
   }
 
+  ngOnDestroy(): void {
+    if (this.searchSubscription) this.searchSubscription.unsubscribe();
+  }
+
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    if (this.displayPaginator) this.dataSource.paginator = this.paginator;
 
     this.searchSubscription = this.searchForm.get('searchTerm')?.valueChanges.pipe(debounceTime(300)).subscribe(term => {
       if (term) {

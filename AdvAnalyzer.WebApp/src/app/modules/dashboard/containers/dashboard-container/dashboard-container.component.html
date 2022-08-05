@@ -1,1 +1,24 @@
-<p>dashboard-container works!</p>
+<div class="dashboard-container">
+    <mat-card class="box a">
+      <mat-card-header>
+        <mat-card-title>New Advertisements by Day</mat-card-title>
+      </mat-card-header>
+      </mat-card>
+      <mat-card class="box b">
+        <mat-card-header>
+          <mat-card-title>Last 20 Advertisements</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-overflow-scroll">
+          <app-advertisement-list-container [displayPaginator]="false" [pageSize]="25"></app-advertisement-list-container>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="box c">
+        <mat-card-header>
+          <mat-card-title>Last 20 Notifications</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-overflow-scroll">
+          <app-notification-list-container [displayPaginator]="false" [pageSize]="25"></app-notification-list-container>
+        </mat-card-content>
+      </mat-card>
+
+</div>

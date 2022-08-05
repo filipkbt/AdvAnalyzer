@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
 import { NotificationListComponent } from '../../components/notification-list/notification-list.component';
 import { NotificationService } from '../../services/notification.service';
 import { finalize, take } from 'rxjs';
+import { Constants } from 'src/app/core/constants/constants';
 
 @Component({
   selector: 'app-notification-list-container',
@@ -14,6 +15,8 @@ export class NotificationListContainerComponent implements OnInit {
 
   public isLoading = false;
   @ViewChild(NotificationListComponent) searchQueryListComponent!: NotificationListComponent;
+  @Input() displayPaginator = true;
+  @Input() pageSize = 25;
 
   constructor(private readonly notificationService: NotificationService, public dialog: MatDialog) { }
 

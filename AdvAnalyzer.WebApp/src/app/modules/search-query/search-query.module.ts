@@ -7,10 +7,12 @@ import { SearchQueryContainerComponent } from './containers/search-query-contain
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddSearchQueryComponent } from './components/add-search-query/add-search-query.component';
 import { UpdateSearchQueryDialogComponent } from './components/update-search-query-dialog/update-search-query-dialog.component';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'all',
+    canActivate: [AuthGuard],
     component: LayoutComponent, children: [
       { path: '', component: SearchQueryContainerComponent },
     ]

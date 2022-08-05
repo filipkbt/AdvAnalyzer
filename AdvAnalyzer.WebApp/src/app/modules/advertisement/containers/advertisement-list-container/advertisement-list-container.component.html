@@ -1,3 +1,3 @@
-<app-advertisement-list [isLoading]="isLoading" (refreshList)="loadData($event)"
+<app-advertisement-list [displayPaginator]="displayPaginator" [pageSize]="pageSize" [isLoading]="isLoading" (refreshList)="loadData($event)"
     (goToAdvertisementClicked)="goToAdvertisement($event)" (setIsFavoriteClicked)="setIsFavorite($event)">
 </app-advertisement-list>

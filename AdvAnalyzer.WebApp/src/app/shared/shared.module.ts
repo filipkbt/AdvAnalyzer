@@ -66,7 +66,6 @@ const additionalModules = [
     CommonModule,
     additionalModules,
     RouterModule
-
-  ], exports: [additionalModules, ConfirmationDialogComponent]
+  ], exports: [additionalModules, ConfirmationDialogComponent, ShowIfTruncatedDirective]
 })
 export class SharedModule { }

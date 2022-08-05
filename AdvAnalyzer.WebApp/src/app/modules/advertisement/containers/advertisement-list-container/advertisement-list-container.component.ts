@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdvertisementService } from '../../services/advertisement.service';
 import { finalize, Subscription, take } from 'rxjs';
@@ -8,6 +8,7 @@ import { Advertisement } from '../../models/advertisement.model';
 import { ToastrService } from 'ngx-toastr';
 import { Constants } from 'src/app/core/constants/constants';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PagedList } from 'src/app/core/models/paged-list.models';
 
 @Component({
   selector: 'app-advertisement-list-container',
@@ -16,8 +17,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AdvertisementListContainerComponent implements OnInit {
   public isLoading = true;
-
   private searchQueryId: number = 0;
+  @Input() displayPaginator = true;
+  @Input() pageSize = 25;
 
   @ViewChild(AdvertisementListComponent) searchQueryListComponent!: AdvertisementListComponent;
 
@@ -29,7 +31,7 @@ export class AdvertisementListContainerComponent implements OnInit {
 
   public loadData(pagedListQueryParams?: PagedListQueryParams): void {
     this.isLoading = true;
-    if (this.router.url.includes('/site/advertisement/all')) {
+    if (this.router.url.includes('/site/advertisement/all') || this.router.url.includes('/site/dashboard')) {
       this.getAllByUserId();
     }
     else if (this.router.url.includes('/site/advertisement/favorite')) {
@@ -47,8 +49,7 @@ export class AdvertisementListContainerComponent implements OnInit {
     this.advertisementService.getAllBySearchQueryId(this.searchQueryId, pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE, pagedListQueryParams?.searchTerm ?? '').pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
-        this.searchQueryListComponent.paginator.length = data.count;
+        this.handlePaginatorUpdate(pagedListQueryParams, data);
       });
     })
   }
@@ -57,8 +58,7 @@ export class AdvertisementListContainerComponent implements OnInit {
     this.advertisementService.getAllFavoritesByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE, pagedListQueryParams?.searchTerm ?? '').pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
-        this.searchQueryListComponent.paginator.length = data.count;
+        this.handlePaginatorUpdate(pagedListQueryParams, data);
       });
     })
   }
@@ -67,8 +67,7 @@ export class AdvertisementListContainerComponent implements OnInit {
     this.advertisementService.getAllByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE, pagedListQueryParams?.searchTerm ?? '').pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
-        this.searchQueryListComponent.paginator.length = data.count;
+        this.handlePaginatorUpdate(pagedListQueryParams, data);
       });
     })
   }
@@ -83,5 +82,12 @@ export class AdvertisementListContainerComponent implements OnInit {
   public setIsFavorite(advertisement: Advertisement): void {
     advertisement.isFavorite = !advertisement.isFavorite;
     this.advertisementService.update(advertisement).pipe(take(1)).subscribe();
+  }
+
+  private handlePaginatorUpdate(pagedListQueryParams: PagedListQueryParams | undefined, data: PagedList): void {
+    if (this.displayPaginator) {
+      this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage;
+      this.searchQueryListComponent.paginator.length = data.count;
+    }
   }
 }
