@@ -20,6 +20,7 @@ namespace AdvAnalyzer.WebApi.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server =.localhost\\SQLEXPRESS; Database = AdvAnalyzer; Trusted_Connection = True; Integrated Security = false; MultipleActiveResultSets = true");

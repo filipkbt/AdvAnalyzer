@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounce, Subscription, debounceTime } from 'rxjs';
+import { Constants } from 'src/app/core/constants/constants';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
 import { Advertisement } from '../../models/advertisement.model';
 
@@ -14,7 +15,6 @@ import { Advertisement } from '../../models/advertisement.model';
 export class AdvertisementListComponent implements OnInit, OnDestroy {
   @Input() isLoading: boolean = false;
   @Input() displayPaginator = true;
-  @Input() pageSize = 25;
 
   @Output() goToAdvertisementClicked = new EventEmitter<string>();
   @Output() setIsFavoriteClicked = new EventEmitter<Advertisement>();
@@ -23,6 +23,7 @@ export class AdvertisementListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSize = Constants.DEFAULT_PAGE_SIZE;
   currentPage = 0;
   displayedColumns: string[] = ['imgUrl', 'title', 'price', 'location', 'dateAdded', 'isFavorite'];
   dataSource: MatTableDataSource<Advertisement> = new MatTableDataSource();

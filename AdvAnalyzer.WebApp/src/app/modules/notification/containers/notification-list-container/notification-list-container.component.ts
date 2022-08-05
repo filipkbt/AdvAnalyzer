@@ -28,8 +28,10 @@ export class NotificationListContainerComponent implements OnInit {
     this.notificationService.getAllByUserId(pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent.pageSize).pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
       setTimeout(() => {
-        this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage;
-        this.searchQueryListComponent.paginator.length = data.count;
+        if(this.displayPaginator) {
+          this.searchQueryListComponent.paginator.pageIndex = pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent.currentPage;
+          this.searchQueryListComponent.paginator.length = data.count;
+        }
       });
     })
   }

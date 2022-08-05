@@ -24,7 +24,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public IQueryable<Notification> GetAll()
         {
-            return table.AsQueryable();
+            return table.AsNoTracking().AsQueryable();
         }
 
         public async Task<PagedList<Notification>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
@@ -33,6 +33,7 @@ namespace AdvAnalyzer.WebApi.Repositories
                     .OrderByDescending(x => x.DateAdded)
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
+                    .AsNoTracking()
                     .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
@@ -45,6 +46,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             var data = await GetAll().Where(x => x.UserId == userId && x.IsSeen == false)
                         .OrderByDescending(x => x.DateAdded)
+                        .AsNoTracking()
                         .ToListAsync();
 
             return data;

@@ -28,12 +28,12 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public IQueryable<SearchQuery> GetAll()
         {
-            return table.AsQueryable();
+            return table.AsNoTracking().AsQueryable();
         }
 
         public IQueryable<Advertisement> GetAllAdvertisements()
         {
-            return advertisementsTable.AsQueryable();
+            return advertisementsTable.AsNoTracking().AsQueryable();
         }
 
         public async Task<PagedList<SearchQueryDto>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
@@ -42,6 +42,7 @@ namespace AdvAnalyzer.WebApi.Repositories
                                 .OrderByDescending(x => x.DateAdded)
                                 .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                                 .Take(pagedListQueryParams.PageSize)
+                                .AsNoTracking()
                                 .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
@@ -52,8 +53,8 @@ namespace AdvAnalyzer.WebApi.Repositories
             {
                 var searchQueryDto = _mapper.Map<SearchQuery, SearchQueryDto>(searchQuery);
 
-                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsAddedAtFirstIteration == false).CountAsync();
-                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false && x.IsAddedAtFirstIteration == false).CountAsync();
+                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsAddedAtFirstIteration == false).AsNoTracking().CountAsync();
+                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false && x.IsAddedAtFirstIteration == false).AsNoTracking().CountAsync();
                 searchQueryDtoList.Add(searchQueryDto);
             }
 
@@ -65,6 +66,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             var data = await GetAll().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
                                 .OrderByDescending(x => x.DateAdded)
+                                .AsNoTracking()
                                 .ToListAsync();
 
             return data;

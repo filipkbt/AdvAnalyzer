@@ -25,7 +25,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public IQueryable<Advertisement> GetAll()
         {
-            return table.AsQueryable();
+            return table.AsNoTracking().AsQueryable();
         }
 
         public async Task<PagedList<Advertisement>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
@@ -40,12 +40,15 @@ namespace AdvAnalyzer.WebApi.Repositories
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
                             .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
+                    .AsNoTracking()
                     .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId &&
                                                (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower())
                                             || x.Location.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())
-                                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()))).CountAsync();
+                                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
+                                            .AsNoTracking()
+                                            .CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
         }
@@ -62,13 +65,16 @@ namespace AdvAnalyzer.WebApi.Repositories
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
+                    .AsNoTracking()
                     .ToListAsync();
 
 
             var count = await GetAll().Where(x => x.SearchQueryId == searchQueryId && 
                               (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Location.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
-                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()))).CountAsync();
+                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
+                            .AsNoTracking()
+                            .CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
         }
@@ -79,6 +85,7 @@ namespace AdvAnalyzer.WebApi.Repositories
                     .OrderByDescending(x => x.DateAdded)
                     .Take(52)
                     .Select(x => x.Url)
+                    .AsNoTracking()
                     .ToListAsync();
 
             return data;
@@ -96,12 +103,15 @@ namespace AdvAnalyzer.WebApi.Repositories
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
+                    .AsNoTracking()
                     .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId && x.IsFavorite == true && 
                                (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Location.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
-                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()))).CountAsync();
+                            || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
+                .AsNoTracking()
+                .CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
         }

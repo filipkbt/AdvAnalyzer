@@ -77,12 +77,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   handleMenuClick(isOpened: boolean): void {
     if (isOpened) {
-      this.markAllNotificationsAsSeen();
-      this.cleanNotificationsList = true;
-    }
-    if (isOpened && this.cleanNotificationsList) {
       this.notifications = [];
       this.cleanNotificationsList = false;
+    }
+    if (isOpened && this.cleanNotificationsList) {
+      this.markAllNotificationsAsSeen();
+      this.cleanNotificationsList = true;
     }
   }
 

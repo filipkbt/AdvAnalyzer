@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Constants } from 'src/app/core/constants/constants';
 import { PagedListQueryParams } from 'src/app/core/models/paged-list-query-params.model';
 import { NotificationService } from '../../services/notification.service';
 
@@ -12,13 +13,13 @@ import { NotificationService } from '../../services/notification.service';
 export class NotificationListComponent implements OnInit {
   @Input() isLoading: boolean = false;
   @Input() displayPaginator = true;
-  @Input() pageSize = 25;
 
   @Output() refreshList = new EventEmitter<PagedListQueryParams>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSize = Constants.DEFAULT_PAGE_SIZE;
   currentPage = 0;
   displayedColumns: string[] = ['dateAdded', 'message'];
   dataSource: MatTableDataSource<Notification> = new MatTableDataSource();

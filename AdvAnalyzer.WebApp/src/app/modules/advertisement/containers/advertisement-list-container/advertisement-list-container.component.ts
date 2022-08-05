@@ -19,7 +19,6 @@ export class AdvertisementListContainerComponent implements OnInit {
   public isLoading = true;
   private searchQueryId: number = 0;
   @Input() displayPaginator = true;
-  @Input() pageSize = 25;
 
   @ViewChild(AdvertisementListComponent) searchQueryListComponent!: AdvertisementListComponent;
 
