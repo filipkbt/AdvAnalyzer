@@ -1,24 +1,31 @@
 <div class="dashboard-container">
-    <mat-card class="box a">
-      <mat-card-header>
-        <mat-card-title>New Advertisements by Day</mat-card-title>
-      </mat-card-header>
-      </mat-card>
-      <mat-card class="box b">
-        <mat-card-header>
-          <mat-card-title>Last 25 Advertisements</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-overflow-scroll">
-          <app-advertisement-list-container [displayPaginator]="false"></app-advertisement-list-container>
-        </mat-card-content>
-      </mat-card>
-      <mat-card class="box c">
-        <mat-card-header>
-          <mat-card-title>Last 25 Notifications</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-overflow-scroll">
-          <app-notification-list-container [displayPaginator]="false"></app-notification-list-container>
-        </mat-card-content>
-      </mat-card>
+  <mat-card class="box a">
+    <mat-card-header>
+      <mat-card-title>New Advertisements by Day</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-overflow-scroll">
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoadingChart"></mat-progress-bar>
+      <ngx-charts-line-chart *ngIf="multi" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi" colorScheme="cool">
+      </ngx-charts-line-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="box b">
+    <mat-card-header>
+      <mat-card-title>Last 25 Advertisements</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-overflow-scroll">
+      <app-advertisement-list-container [displayPaginator]="false"></app-advertisement-list-container>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="box c">
+    <mat-card-header>
+      <mat-card-title>Last 25 Notifications</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-overflow-scroll">
+      <app-notification-list-container [displayPaginator]="false"></app-notification-list-container>
+    </mat-card-content>
+  </mat-card>
 
 </div>

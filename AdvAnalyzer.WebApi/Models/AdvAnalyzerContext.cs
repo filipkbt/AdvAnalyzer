@@ -11,6 +11,7 @@ namespace AdvAnalyzer.WebApi.Models
         public AdvAnalyzerContext(DbContextOptions<AdvAnalyzerContext> options)
             : base(options)
         {
+            Database.SetCommandTimeout(9000);
         }
 
         public virtual DbSet<Advertisement> Advertisement { get; set; }

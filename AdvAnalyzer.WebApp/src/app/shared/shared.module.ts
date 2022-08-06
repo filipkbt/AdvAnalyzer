@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ShowIfTruncatedDirective } from './directives/show-if-truncated.directive';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const additionalModules = [
   MatInputModule,
@@ -53,7 +54,8 @@ const additionalModules = [
   MatCheckboxModule,
   MatTooltipModule,
   MatBadgeModule,
-  MatRippleModule
+  MatRippleModule,
+NgxChartsModule
 ]
 
 @NgModule({

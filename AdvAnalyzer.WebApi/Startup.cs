@@ -124,6 +124,7 @@ namespace AdvAnalyzer.WebApi
             services.AddScoped<ISearchQueryRepository, SearchQueryRepository>();
             services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IChartRepository, ChartRepository>();
         }
 
         private void AddServices(IServiceCollection services)

@@ -9,7 +9,6 @@ namespace AdvAnalyzer.WebApi.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Advertisement, AdvertisementDto>();
             CreateMap<LoginDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => Encoding.ASCII.GetBytes(src.Password)));
             CreateMap<RegisterDto, User>().ForMember(dest => dest.Password, opt => opt.MapFrom(src => Encoding.ASCII.GetBytes(src.Password)));
             CreateMap<SearchQuery, SearchQueryDto>();
