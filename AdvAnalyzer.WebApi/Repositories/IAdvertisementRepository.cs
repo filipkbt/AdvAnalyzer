@@ -18,6 +18,5 @@ namespace AdvAnalyzer.WebApi.Repositories
         public Task<List<Advertisement>> InsertMany(List<Advertisement> advertisements);
         public Task<int> SaveChangesAsync();
         public Task<Advertisement> Update(Advertisement advertisement);
-        public Task<bool> Delete(int advertisementId);
     }
 }

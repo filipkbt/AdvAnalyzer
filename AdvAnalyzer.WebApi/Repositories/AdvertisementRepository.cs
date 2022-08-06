@@ -152,10 +152,5 @@ namespace AdvAnalyzer.WebApi.Repositories
             await _context.SaveChangesAsync();
             return advertisement;
         }
-
-        public async Task<bool> Delete(int advertisementId)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
