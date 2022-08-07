@@ -82,7 +82,7 @@ namespace AdvAnalyzer.WebApi.Services
 
                     foreach (var result in results)
                     {
-                        if (result.SendEmailNotification)
+                        if (result.SendEmailNotification && result.Advertisements.Count > 0)
                         {
                             var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
                             var message = new EmailMessage(result.UserEmail, title, "Visit AdvAnalyzer to see more details.");
