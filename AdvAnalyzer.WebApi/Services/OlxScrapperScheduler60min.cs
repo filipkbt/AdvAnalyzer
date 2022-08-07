@@ -91,7 +91,7 @@ namespace AdvAnalyzer.WebApi.Services
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(60), stoppingToken);
                 _logger.Log(LogLevel.Information, "finish scraping");
             }
         }
@@ -113,4 +113,4 @@ namespace AdvAnalyzer.WebApi.Services
         }
     }
 }
-}
+
