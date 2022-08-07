@@ -66,6 +66,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public async Task<List<SearchQuery>> GetAllByRefreshFrequencyInMinutes(int refreshFrequencyInMinutes)
         {
             var data = await GetAll().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
+                                .Include(x => x.User)
                                 .OrderByDescending(x => x.DateAdded)
                                 .AsNoTracking()
                                 .ToListAsync();
