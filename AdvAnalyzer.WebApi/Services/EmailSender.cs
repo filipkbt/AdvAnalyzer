@@ -101,7 +101,7 @@ namespace AdvAnalyzer.WebApi.Services
 
         private string CreateMessage(EmailMessage message)
         {
-            return string.Format("<h2 style='color:red;'>{0}</h2>", message.Content);
+            return string.Format("<h3>{0}</h3>", message.Content);
         }
     }
 }

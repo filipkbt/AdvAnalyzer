@@ -83,7 +83,7 @@ namespace AdvAnalyzer.WebApi.Services
                     foreach (var result in results)
                     {
                         var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
-                        var message = new EmailMessage("filip.kubat@wp.pl", title, "This is the content from our email.");
+                        var message = new EmailMessage("filip.kubat@wp.pl", title, "Visit AdvAnalyzer to see more details.");
                         await _emailSender.SendEmailAsync(message);
                     }
                 }
