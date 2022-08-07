@@ -32,7 +32,7 @@ export class AdvertisementListContainerComponent implements OnInit {
   public loadData(pagedListQueryParams?: PagedListQueryParams): void {
     this.isLoading = true;
     if (this.router.url.includes('/site/advertisement/all') || this.router.url.includes('/site/dashboard')) {
-      this.getAllByUserId();
+      this.getAllByUserId(pagedListQueryParams);
     }
     else if (this.router.url.includes('/site/advertisement/favorite')) {
       this.getAllFavoritesByUserId(pagedListQueryParams);
