@@ -82,13 +82,16 @@ namespace AdvAnalyzer.WebApi.Services
 
                     foreach (var result in results)
                     {
-                        var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
-                        var message = new EmailMessage(result.UserEmail, title, "Visit AdvAnalyzer to see more details.");
-                        await _emailSender.SendEmailAsync(message);
+                        if (result.SendEmailNotification)
+                        {
+                            var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
+                            var message = new EmailMessage(result.UserEmail, title, "Visit AdvAnalyzer to see more details.");
+                            await _emailSender.SendEmailAsync(message);
+                        }
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
                 _logger.Log(LogLevel.Information, "finish scraping");
             }
         }

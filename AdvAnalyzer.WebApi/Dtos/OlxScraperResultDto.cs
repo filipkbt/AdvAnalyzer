@@ -10,6 +10,7 @@ namespace AdvAnalyzer.WebApi.Dtos
         public string SearchQueryName { get; set; }
         public int SearchQueryId { get; set; }
         public bool UpdateSearchQueryIsInitialized { get; set; }
+        public bool SendEmailNotification { get; set; }
         public string UserEmail { get; set; }
     }
 }

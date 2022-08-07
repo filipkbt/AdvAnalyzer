@@ -153,6 +153,7 @@ namespace AdvAnalyzer.WebApi.Services
                     olxScraperResult.Notification = notification;
                     olxScraperResult.SearchQueryName = searchQuery.Name;
                     olxScraperResult.UserEmail = searchQuery.User.Email;
+                    olxScraperResult.SendEmailNotification = searchQuery.SendEmailNotifications;
 
                     _logger.Log(LogLevel.Information, DateTime.Now + " finish scrap: " + searchQuery.Name);
                 }
