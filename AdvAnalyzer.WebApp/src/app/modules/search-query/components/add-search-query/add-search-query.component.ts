@@ -15,7 +15,7 @@ export class AddSearchQueryComponent implements OnInit {
   public frequencies: number[] = [1, 2, 3, 4, 5, 10, 30, 60, 120, 240];
   public formGroup: FormGroup = this.formBuilder.group({
     'name': [null, Validators.required],
-    'url': [null, [Validators.required, Validators.pattern('(https?://)?www.olx\\.pl(.*)')]],
+    'url': [null, [Validators.required, Validators.pattern('(https?://)?www.olx\\.pl(.*)created_at:desc$')]],
     'refreshFrequencyInMinutes': [null, Validators.required],
     'sendEmailNotifications': [false, Validators.required]
   });
