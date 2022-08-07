@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from '../../models/search-query.model';
-import { SearchQueryService } from '../../services/search-query.service';
-import { finalize, take } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -11,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./update-search-query-dialog.component.scss']
 })
 export class UpdateSearchQueryDialogComponent implements OnInit {
-  public frequencies: number[] = [1, 2, 3, 4, 5, 10, 30, 60, 120, 240];
+  public frequencies: number[] = [3, 5, 15, 30, 60];
   public formGroup: FormGroup = this.formBuilder.group({
     'id': [null],
     'name': [null, Validators.required],

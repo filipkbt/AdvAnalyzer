@@ -122,6 +122,11 @@ namespace AdvAnalyzer.WebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
             });
+
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<AdvAnalyzerContext>().Database.Migrate();
+            }
         }
 
         private void AddRepositories(IServiceCollection services)
@@ -138,7 +143,11 @@ namespace AdvAnalyzer.WebApi
 
             services.AddScoped<IOlxScraper, OlxScraper>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddHostedService<OlxScrapperScheduler3min>();
             services.AddHostedService<OlxScrapperScheduler5min>();
+            services.AddHostedService<OlxScrapperScheduler15min>();
+            services.AddHostedService<OlxScrapperScheduler30min>();
+            services.AddHostedService<OlxScrapperScheduler60min>();
         }
     }
 }
