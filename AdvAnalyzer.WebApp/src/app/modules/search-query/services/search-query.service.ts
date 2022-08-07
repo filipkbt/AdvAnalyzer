@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedList } from 'src/app/core/models/paged-list.models';
 import { environment } from 'src/environments/environment';
+import { Advertisement } from '../../advertisement/models/advertisement.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { SearchQuery } from '../models/search-query.model';
 
@@ -28,6 +29,10 @@ export class SearchQueryService {
   create(searchQuery: SearchQuery): Observable<SearchQuery> {
     searchQuery.userId = this.userId;
     return this.http.post<SearchQuery>(environment.apiUrl + 'searchquery', searchQuery);
+  }
+
+  markSearchQueryAdvertisementsAsSeen(searchQueryId: number): Observable<Advertisement[]> {
+    return this.http.post<Advertisement[]>(environment.apiUrl + 'searchquery/' + searchQueryId + '/mark-advertisements-as-seen', {});
   }
 
   update(searchQuery: SearchQuery): Observable<SearchQuery> {

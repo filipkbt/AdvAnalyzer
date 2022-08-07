@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace AdvAnalyzer.WebApi.Repositories
 {
@@ -108,10 +109,20 @@ namespace AdvAnalyzer.WebApi.Repositories
             return searchQuery;
         }
 
+        public async Task<List<Advertisement>> MarkAllSearchQueryAdvertisementsAsSeen(int searchQueryId)
+        {
+            var advertisementsNotSeen = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
+                    .ToListAsync();
+
+            GetAllAdvertisements().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
+           .Update(x => new Advertisement() { IsSeen = true });
+
+            return advertisementsNotSeen;
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
-
     }
 }

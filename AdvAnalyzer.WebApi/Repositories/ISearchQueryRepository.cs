@@ -14,6 +14,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public Task<PagedList<SearchQueryDto>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams);
         public Task<List<SearchQuery>> GetAllByRefreshFrequencyInMinutes(int refreshFrequencyInMinutes);
+        public Task<List<Advertisement>> MarkAllSearchQueryAdvertisementsAsSeen(int searchQueryId);
         public Task<SearchQuery> GetById(int searchQueryId);
         public Task<SearchQuery> Insert(SearchQuery searchQuery);
         public Task<SearchQuery> Update(SearchQuery searchQuery);

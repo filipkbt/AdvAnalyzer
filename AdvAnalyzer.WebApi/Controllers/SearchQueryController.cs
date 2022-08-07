@@ -35,6 +35,13 @@ namespace AdvAnalyzer.WebApi.Controllers
             return Ok(data);
         }
 
+        [HttpPost("{searchQueryId}/mark-advertisements-as-seen")]
+        public async Task<IActionResult> MarkAllSearchQueryAdvertisementsAsSeen(int searchQueryId)
+        {
+            var data = await _repository.MarkAllSearchQueryAdvertisementsAsSeen(searchQueryId);
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(SearchQuery searchQuery)
         {

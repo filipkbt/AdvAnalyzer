@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Constants } from 'src/app/core/constants/constants';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PagedList } from 'src/app/core/models/paged-list.models';
+import { SearchQueryService } from 'src/app/modules/search-query/services/search-query.service';
 
 @Component({
   selector: 'app-advertisement-list-container',
@@ -22,7 +23,7 @@ export class AdvertisementListContainerComponent implements OnInit {
 
   @ViewChild(AdvertisementListComponent) searchQueryListComponent!: AdvertisementListComponent;
 
-  constructor(private readonly router: Router, private readonly advertisementService: AdvertisementService, private route: ActivatedRoute, private readonly toastr: ToastrService) { }
+  constructor(private readonly router: Router, private readonly advertisementService: AdvertisementService, private readonly searchQueryService: SearchQueryService, private route: ActivatedRoute, private readonly toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -47,6 +48,7 @@ export class AdvertisementListContainerComponent implements OnInit {
   public getAllBySearchQueryId(pagedListQueryParams?: PagedListQueryParams): void {
     this.advertisementService.getAllBySearchQueryId(this.searchQueryId, pagedListQueryParams?.pageNumber ?? this.searchQueryListComponent?.currentPage ?? 0, pagedListQueryParams?.pageSize ?? this.searchQueryListComponent?.pageSize ?? Constants.DEFAULT_PAGE_SIZE, pagedListQueryParams?.searchTerm ?? '').pipe(finalize(() => this.isLoading = false), take(1)).subscribe(data => {
       this.searchQueryListComponent.dataSource.data = data.data;
+      this.searchQueryService.markSearchQueryAdvertisementsAsSeen(this.searchQueryId).pipe(take(1)).subscribe();
       setTimeout(() => {
         this.handlePaginatorUpdate(pagedListQueryParams, data);
       });

@@ -9,17 +9,14 @@
                     <mat-form-field class="full-width">
                         <input matInput type="email" placeholder="Email" formControlName="email">
                         <mat-error>
-                            <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched">Please
-                                enter
-                                your email</span>
+                            <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched">Email is not valid</span>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="full-width">
                         <input matInput type="password" placeholder="Password" formControlName="password">
                         <mat-error>
                             <span
-                                *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">Please
-                                enter your password</span>
+                                *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">Password is not valid (min. 8 characters)</span>
                         </mat-error>
                     </mat-form-field>
                 </form>
