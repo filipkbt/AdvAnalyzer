@@ -151,6 +151,7 @@ namespace AdvAnalyzer.WebApi.Services
 
                     olxScraperResult.Advertisements = searchResults;
                     olxScraperResult.Notification = notification;
+                    olxScraperResult.SearchQueryName = searchQuery.Name;
 
                     _logger.Log(LogLevel.Information, DateTime.Now + " finish scrap: " + searchQuery.Name);
                 }

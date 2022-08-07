@@ -7,6 +7,7 @@ namespace AdvAnalyzer.WebApi.Dtos
     {
         public List<Advertisement> Advertisements { get; set; }
         public Notification Notification { get; set; }
+        public string SearchQueryName { get; set; }
         public int SearchQueryId { get; set; }
         public bool UpdateSearchQueryIsInitialized { get; set; }
     }

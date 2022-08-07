@@ -52,6 +52,10 @@ namespace AdvAnalyzer.WebApi
                               ValidateAudience = false
                           };
                       });
+            var emailConfig = Configuration
+                    .GetSection("EmailConfiguration")
+                    .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
 
             AddRepositories(services);
             AddServices(services);
@@ -62,7 +66,8 @@ namespace AdvAnalyzer.WebApi
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "JWTToken_Auth_API",
@@ -113,7 +118,8 @@ namespace AdvAnalyzer.WebApi
                 endpoints.MapControllers();
             });
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
             });
         }
@@ -129,7 +135,9 @@ namespace AdvAnalyzer.WebApi
 
         private void AddServices(IServiceCollection services)
         {
+
             services.AddScoped<IOlxScraper, OlxScraper>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddHostedService<OlxScrapperScheduler5min>();
         }
     }
