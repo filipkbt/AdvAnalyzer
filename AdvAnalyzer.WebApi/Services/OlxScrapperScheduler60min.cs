@@ -35,7 +35,7 @@ namespace AdvAnalyzer.WebApi.Services
                 {
                     var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
 
-                    searchQueries = await searchQueryRepository.GetAllByRefreshFrequencyInMinutes(5);
+                    searchQueries = await searchQueryRepository.GetAllByRefreshFrequencyInMinutes(60);
                 }
 
                 _logger.Log(LogLevel.Information, "start scraping");
