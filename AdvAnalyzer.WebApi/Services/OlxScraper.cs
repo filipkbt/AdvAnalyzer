@@ -40,8 +40,6 @@ namespace AdvAnalyzer.WebApi.Services
 
             var extra = new PuppeteerExtra().Use(new StealthPlugin()).Use(new AnonymizeUaPlugin());
 
-            extra.Use(new StealthPlugin());
-
             try
             {
                 using (var browser = await extra.LaunchAsync(new LaunchOptions
@@ -49,7 +47,7 @@ namespace AdvAnalyzer.WebApi.Services
                     Headless = true,
                     Args = args,
                     ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
-                    DefaultViewport = null
+                    //DefaultViewport = null
                 }))
                 {
                     _logger.Log(LogLevel.Information, DateTime.Now + "Start scrap: " + searchQuery.Name);
@@ -178,24 +176,11 @@ namespace AdvAnalyzer.WebApi.Services
         {
             using (Page page = await browser.NewPageAsync())
             {
-                await page.SetCacheEnabledAsync(false);
                 await page.GoToAsync(url);
                 await page.ScreenshotAsync(".\\somepage" + searchQueryId + ".jpg", new ScreenshotOptions() { FullPage = true });
                 return await page.GetContentAsync();
             }
         }
-
-        private async Task<Browser> LaunchBrowser()
-        {
-            string[] args = { "--single-process", "--no-zygote", "--no-sandbox" };
-            return await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true,
-                Args = args,
-                ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe"
-            });
-        }
-
         private List<string> CreatePagesList(int totalCountNumber, string url)
         {
             List<string> pagesList = new List<string>();
