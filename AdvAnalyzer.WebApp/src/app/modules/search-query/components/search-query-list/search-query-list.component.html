@@ -23,6 +23,11 @@
             </td>
         </ng-container>
 
+        <ng-container matColumnDef="refreshFrequencyInMinutes">
+            <th mat-header-cell *matHeaderCellDef> Refresh interval </th>
+            <td mat-cell *matCellDef="let element" [matTooltip]="element.refreshFrequencyInMinutes" appShowIfTruncated> {{element.refreshFrequencyInMinutes}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="results">
             <th mat-header-cell *matHeaderCellDef> Results </th>
 

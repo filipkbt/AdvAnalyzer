@@ -25,7 +25,7 @@ export class SearchQueryListComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = 10;
   currentPage = 0;
-  displayedColumns: string[] = ['name', 'url', 'email', 'results', 'new', 'action'];
+  displayedColumns: string[] = ['name', 'url', 'email', 'refreshFrequencyInMinutes', 'results', 'new', 'action'];
   dataSource: MatTableDataSource<SearchQuery> = new MatTableDataSource();
 
   constructor() { }
