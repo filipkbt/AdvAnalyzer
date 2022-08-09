@@ -3,6 +3,9 @@ using AdvAnalyzer.WebApi.Models;
 using AdvAnalyzer.WebApi.Repositories;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
+using PuppeteerExtraSharp;
+using PuppeteerExtraSharp.Plugins.AnonymizeUa;
+using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
@@ -35,9 +38,13 @@ namespace AdvAnalyzer.WebApi.Services
             string[] args = { "--no-zygote", "--no-sandbox", "--start-maximized" };
             OlxScraperResultDto olxScraperResult = new OlxScraperResultDto();
 
+            var extra = new PuppeteerExtra().Use(new StealthPlugin()).Use(new AnonymizeUaPlugin());
+
+            extra.Use(new StealthPlugin());
+
             try
             {
-                using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                using (var browser = await extra.LaunchAsync(new LaunchOptions
                 {
                     Headless = true,
                     Args = args,
