@@ -162,7 +162,7 @@ namespace AdvAnalyzer.WebApi.Services
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex.Message);
+                _logger.Log(LogLevel.Error, ex.Message, ex.StackTrace);
                 return null;
             }
         }

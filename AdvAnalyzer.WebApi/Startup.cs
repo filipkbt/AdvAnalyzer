@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +25,17 @@ namespace AdvAnalyzer.WebApi
 {
     public class Startup
     {
+        private readonly ILogger _serilogLogger;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            _serilogLogger = new LoggerConfiguration()
+                .WriteTo.File(
+                "logs/log.log",
+                rollingInterval: RollingInterval.Hour)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }

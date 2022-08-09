@@ -26,73 +26,80 @@ namespace AdvAnalyzer.WebApi.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                var searchQueries = new List<SearchQuery>();
-                var tasks = new List<Task>();
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
 
-                    searchQueries = await searchQueryRepository.GetAllByRefreshFrequencyInMinutes(5);
-                }
-
-                _logger.Log(LogLevel.Information, "start scraping");
-                using (var scope = _serviceScopeFactory.CreateScope())
+                while (!stoppingToken.IsCancellationRequested)
                 {
-                    foreach (var searchQuery in searchQueries)
+                    var searchQueries = new List<SearchQuery>();
+                    var tasks = new List<Task>();
+                    using (var scope = _serviceScopeFactory.CreateScope())
                     {
-                        var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
-                        var taskGetLast52 = advertisementRepository.GetLast52AdvertisementsUrlBySearchQueryId(searchQuery.Id);
-                        await Task.WhenAll(taskGetLast52);
-                        var result52 = ((Task<List<string>>)taskGetLast52).Result;
-                        var olxScraper = scope.ServiceProvider.GetRequiredService<IOlxScraper>();
-                        tasks.Add(olxScraper.TryParseOlx(searchQuery, result52));
+                        var searchQueryRepository = scope.ServiceProvider.GetRequiredService<ISearchQueryRepository>();
+
+                        searchQueries = await searchQueryRepository.GetAllByRefreshFrequencyInMinutes(5);
                     }
-                    _logger.Log(LogLevel.Information, "Waiting for tasks...");
 
-                    await Task.WhenAll(tasks);
-                    _logger.Log(LogLevel.Information, "Tasks are finished !");
-
-                    List<OlxScraperResultDto> results = new List<OlxScraperResultDto>();
-                    List<Advertisement> advertisementsToInsert = new List<Advertisement>();
-                    List<Notification> notificationsToInsert = new List<Notification>();
-                    List<SearchQuery> searchQueriesToUpdate = new List<SearchQuery>();
-
-                    foreach (var task in tasks)
+                    _logger.Log(LogLevel.Information, "start scraping");
+                    using (var scope = _serviceScopeFactory.CreateScope())
                     {
-                        var result = ((Task<OlxScraperResultDto>)task).Result;
-
-                        if (result != null)
+                        foreach (var searchQuery in searchQueries)
                         {
-                            advertisementsToInsert.AddRange(result.Advertisements);
-                            if (result.Notification != null) notificationsToInsert.Add(result.Notification);
-                            if (result.UpdateSearchQueryIsInitialized == true)
+                            var advertisementRepository = scope.ServiceProvider.GetRequiredService<IAdvertisementRepository>();
+                            var taskGetLast52 = advertisementRepository.GetLast52AdvertisementsUrlBySearchQueryId(searchQuery.Id);
+                            await Task.WhenAll(taskGetLast52);
+                            var result52 = ((Task<List<string>>)taskGetLast52).Result;
+                            var olxScraper = scope.ServiceProvider.GetRequiredService<IOlxScraper>();
+                            tasks.Add(olxScraper.TryParseOlx(searchQuery, result52));
+                        }
+                        _logger.Log(LogLevel.Information, "Waiting for tasks...");
+
+                        await Task.WhenAll(tasks);
+                        _logger.Log(LogLevel.Information, "Tasks are finished !");
+
+                        List<OlxScraperResultDto> results = new List<OlxScraperResultDto>();
+                        List<Advertisement> advertisementsToInsert = new List<Advertisement>();
+                        List<Notification> notificationsToInsert = new List<Notification>();
+                        List<SearchQuery> searchQueriesToUpdate = new List<SearchQuery>();
+
+                        foreach (var task in tasks)
+                        {
+                            var result = ((Task<OlxScraperResultDto>)task).Result;
+
+                            if (result != null)
                             {
-                                SearchQuery searchQueryToUpdate = searchQueries.Find(x => x.Id == result.SearchQueryId);
-                                searchQueryToUpdate.IsInitialized = true;
-                                searchQueriesToUpdate.Add(searchQueryToUpdate);
+                                advertisementsToInsert.AddRange(result.Advertisements);
+                                if (result.Notification != null) notificationsToInsert.Add(result.Notification);
+                                if (result.UpdateSearchQueryIsInitialized == true)
+                                {
+                                    SearchQuery searchQueryToUpdate = searchQueries.Find(x => x.Id == result.SearchQueryId);
+                                    searchQueryToUpdate.IsInitialized = true;
+                                    searchQueriesToUpdate.Add(searchQueryToUpdate);
+                                }
+
+                                results.Add(result);
                             }
-
-                            results.Add(result);
                         }
-                    }
-                    await Task.WhenAll(SaveResults(scope, advertisementsToInsert, notificationsToInsert, searchQueriesToUpdate));
+                        await Task.WhenAll(SaveResults(scope, advertisementsToInsert, notificationsToInsert, searchQueriesToUpdate));
 
-                    foreach (var result in results)
-                    {
-                        if (result.SendEmailNotification && result.Advertisements.Count > 0)
+                        foreach (var result in results)
                         {
-                            var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
-                            var message = new EmailMessage(result.UserEmail, title, "Visit AdvAnalyzer to see more details.");
-                            await _emailSender.SendEmailAsync(message);
+                            if (result.SendEmailNotification && result.Advertisements.Count > 0)
+                            {
+                                var title = "New " + result.Advertisements.Count + " results from \"" + result.SearchQueryName + "\" search query!";
+                                var message = new EmailMessage(result.UserEmail, title, "Visit AdvAnalyzer to see more details.");
+                                await _emailSender.SendEmailAsync(message);
+                            }
                         }
                     }
-                }
 
-                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
-                _logger.Log(LogLevel.Information, "finish scraping");
+                    await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                    _logger.Log(LogLevel.Information, "finish scraping");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace);
             }
         }
 
