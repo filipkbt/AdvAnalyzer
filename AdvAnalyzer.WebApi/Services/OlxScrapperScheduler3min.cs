@@ -17,7 +17,7 @@ namespace AdvAnalyzer.WebApi.Services
         private readonly ILogger _logger;
         private readonly IEmailSender _emailSender;
 
-        public OlxScrapperScheduler3min(IServiceScopeFactory serviceScopeFactory, ILogger<OlxScrapperScheduler5min> logger, IServiceProvider serviceProvider)
+        public OlxScrapperScheduler3min(IServiceScopeFactory serviceScopeFactory, ILogger<OlxScrapperScheduler3min> logger, IServiceProvider serviceProvider)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
@@ -114,8 +114,9 @@ namespace AdvAnalyzer.WebApi.Services
 
             foreach (var searchQueryToUpdate in searchQueries)
             {
-                await searchQueryRepository.Update(searchQueryToUpdate);
+                searchQueryRepository.UpdateWithoutSave(searchQueryToUpdate);
             }
+            await searchQueryRepository.SaveChangesAsync();
         }
     }
 }

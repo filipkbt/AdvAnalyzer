@@ -39,11 +39,11 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<PagedList<SearchQueryDto>> GetAllByUserId(int userId, PagedListQueryParams pagedListQueryParams)
         {
-            var data = await GetAll().Where(x => x.UserId == userId)
+            var data = await GetAll().AsNoTracking().Where(x => x.UserId == userId)
                                 .OrderByDescending(x => x.DateAdded)
                                 .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                                 .Take(pagedListQueryParams.PageSize)
-                                .AsNoTracking()
+
                                 .ToListAsync();
 
             var count = await GetAll().Where(x => x.UserId == userId).CountAsync();
@@ -54,8 +54,8 @@ namespace AdvAnalyzer.WebApi.Repositories
             {
                 var searchQueryDto = _mapper.Map<SearchQuery, SearchQueryDto>(searchQuery);
 
-                searchQueryDto.Results = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsAddedAtFirstIteration == false).AsNoTracking().CountAsync();
-                searchQueryDto.NewResults = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false && x.IsAddedAtFirstIteration == false).AsNoTracking().CountAsync();
+                searchQueryDto.Results = await GetAllAdvertisements().AsNoTracking().Where(x => x.SearchQueryId == searchQuery.Id && x.IsAddedAtFirstIteration == false).CountAsync();
+                searchQueryDto.NewResults = await GetAllAdvertisements().AsNoTracking().Where(x => x.SearchQueryId == searchQuery.Id && x.IsSeen == false && x.IsAddedAtFirstIteration == false).CountAsync();
                 searchQueryDtoList.Add(searchQueryDto);
             }
 
@@ -65,10 +65,9 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<List<SearchQuery>> GetAllByRefreshFrequencyInMinutes(int refreshFrequencyInMinutes)
         {
-            var data = await GetAll().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
+            var data = await GetAll().AsNoTracking().Where(x => x.RefreshFrequencyInMinutes == refreshFrequencyInMinutes)
                                 .Include(x => x.User)
                                 .OrderByDescending(x => x.DateAdded)
-                                .AsNoTracking()
                                 .ToListAsync();
 
             return data;
@@ -102,20 +101,20 @@ namespace AdvAnalyzer.WebApi.Repositories
             return searchQuery;
         }
 
-        public async Task<SearchQuery> UpdateWithoutSave(SearchQuery searchQuery)
+        public SearchQuery UpdateWithoutSave(SearchQuery searchQuery)
         {
             searchQuery.DateAdded = DateTime.Now;
-            await table.AddAsync(searchQuery);
+            _context.Entry(searchQuery).State = EntityState.Modified;
 
             return searchQuery;
         }
 
         public async Task<List<Advertisement>> MarkAllSearchQueryAdvertisementsAsSeen(int searchQueryId)
         {
-            var advertisementsNotSeen = await GetAllAdvertisements().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
+            var advertisementsNotSeen = await GetAllAdvertisements().AsNoTracking().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
                     .ToListAsync();
 
-            GetAllAdvertisements().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
+            GetAllAdvertisements().AsNoTracking().Where(x => x.SearchQueryId == searchQueryId && x.IsSeen == false)
            .Update(x => new Advertisement() { IsSeen = true });
 
             return advertisementsNotSeen;

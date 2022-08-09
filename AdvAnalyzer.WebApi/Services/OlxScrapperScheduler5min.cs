@@ -115,8 +115,9 @@ namespace AdvAnalyzer.WebApi.Services
 
             foreach (var searchQueryToUpdate in searchQueries)
             {
-                await searchQueryRepository.Update(searchQueryToUpdate);
+                searchQueryRepository.UpdateWithoutSave(searchQueryToUpdate);
             }
+            await searchQueryRepository.SaveChangesAsync();
         }
     }
 }

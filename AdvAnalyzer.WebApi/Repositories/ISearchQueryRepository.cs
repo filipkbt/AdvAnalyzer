@@ -18,7 +18,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         public Task<SearchQuery> GetById(int searchQueryId);
         public Task<SearchQuery> Insert(SearchQuery searchQuery);
         public Task<SearchQuery> Update(SearchQuery searchQuery);
-        public Task<SearchQuery> UpdateWithoutSave(SearchQuery searchQuery);
+        public SearchQuery UpdateWithoutSave(SearchQuery searchQuery);
         public Task<int> SaveChangesAsync();
         public Task<bool> Delete(int searchQueryId);
 

@@ -26,6 +26,7 @@ namespace AdvAnalyzer.WebApi.Models
             {
                 optionsBuilder.UseSqlServer("Server =.localhost\\SQLEXPRESS; Database = AdvAnalyzer; Trusted_Connection = True; Integrated Security = false; MultipleActiveResultSets = true");
             }
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

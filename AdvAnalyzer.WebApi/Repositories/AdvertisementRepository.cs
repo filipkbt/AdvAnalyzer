@@ -57,7 +57,7 @@ namespace AdvAnalyzer.WebApi.Repositories
         {
             if (pagedListQueryParams.SearchTerm == null) pagedListQueryParams.SearchTerm = "";
 
-            var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
+            var data = await GetAll().AsNoTracking().Where(x => x.SearchQueryId == searchQueryId)
                     .OrderByDescending(x => x.DateAdded)
                     .Where(x => x.IsAddedAtFirstIteration == false && 
                               (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
@@ -65,15 +65,13 @@ namespace AdvAnalyzer.WebApi.Repositories
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
-                    .AsNoTracking()
                     .ToListAsync();
 
 
-            var count = await GetAll().Where(x => x.SearchQueryId == searchQueryId && 
+            var count = await GetAll().AsNoTracking().Where(x => x.SearchQueryId == searchQueryId && 
                               (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Location.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
-                            .AsNoTracking()
                             .CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
@@ -81,11 +79,10 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<List<string>> GetLast52AdvertisementsUrlBySearchQueryId(int searchQueryId)
         {
-            var data = await GetAll().Where(x => x.SearchQueryId == searchQueryId)
+            var data = await GetAll().AsNoTracking().Where(x => x.SearchQueryId == searchQueryId)
                     .OrderByDescending(x => x.DateAdded)
                     .Take(52)
                     .Select(x => x.Url)
-                    .AsNoTracking()
                     .ToListAsync();
 
             return data;
@@ -96,6 +93,7 @@ namespace AdvAnalyzer.WebApi.Repositories
             if (pagedListQueryParams.SearchTerm == null) pagedListQueryParams.SearchTerm = "";
 
             var data = await GetAll().Where(x => x.UserId == userId)
+                     .AsNoTracking()
                     .OrderByDescending(x => x.DateAdded)
                     .Where(x => x.IsFavorite == true && 
                               (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
@@ -103,14 +101,12 @@ namespace AdvAnalyzer.WebApi.Repositories
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
                     .Skip(pagedListQueryParams.PageNumber * pagedListQueryParams.PageSize)
                     .Take(pagedListQueryParams.PageSize)
-                    .AsNoTracking()
                     .ToListAsync();
 
-            var count = await GetAll().Where(x => x.UserId == userId && x.IsFavorite == true && 
+            var count = await GetAll().AsNoTracking().Where(x => x.UserId == userId && x.IsFavorite == true && 
                                (x.Price.ToString().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Location.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower()) 
                             || x.Title.ToLower().Contains(pagedListQueryParams.SearchTerm.ToLower())))
-                .AsNoTracking()
                 .CountAsync();
 
             return new PagedList<Advertisement> { Count = count, Data = data };
