@@ -114,7 +114,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<Advertisement> Insert(Advertisement advertisement)
         {
-            advertisement.DateAdded = DateTime.Now;
+            advertisement.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time");
             await table.AddAsync(advertisement);
             await _context.SaveChangesAsync();
             return advertisement;
@@ -122,7 +122,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<Advertisement> InsertWithoutSave(Advertisement advertisement)
         {
-            advertisement.DateAdded = DateTime.Now;
+            advertisement.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time");
             await table.AddAsync(advertisement);
 
             return advertisement;
@@ -130,7 +130,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<List<Advertisement>> InsertMany(List<Advertisement> advertisements)
         {
-            advertisements.ForEach(x => x.DateAdded = DateTime.Now);
+            advertisements.ForEach(x => x.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time"));
             await table.AddRangeAsync(advertisements);
             await _context.SaveChangesAsync();
             return advertisements;

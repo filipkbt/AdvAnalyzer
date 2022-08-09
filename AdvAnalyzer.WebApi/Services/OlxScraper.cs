@@ -118,7 +118,7 @@ namespace AdvAnalyzer.WebApi.Services
                                         Title = resultRiders[i].SelectNodes(".//div//div//div[2]//div[1]//h6").FirstOrDefault().InnerText,
                                         Price = price,
                                         Location = locationAndDate[0],
-                                        DateAdded = DateTime.Now,
+                                        DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time"),
                                         UserId = searchQuery.UserId,
                                         SearchQueryId = searchQuery.Id,
                                         IsSeen = false,
@@ -202,7 +202,7 @@ namespace AdvAnalyzer.WebApi.Services
 
         private Notification CreateNotification(string searchQueryName, int searchQueryId, int userId, int newAdvertisementsCount)
         {
-            return new Notification() { Message = newAdvertisementsCount + " new advertisements from " + searchQueryName, DateAdded = DateTime.Now, IsSeen = false, UserId = userId, SearchQueryId = searchQueryId };
+            return new Notification() { Message = newAdvertisementsCount + " new advertisements from " + searchQueryName, DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time"), IsSeen = false, UserId = userId, SearchQueryId = searchQueryId };
         }
     }
 }

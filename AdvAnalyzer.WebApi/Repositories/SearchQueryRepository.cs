@@ -87,7 +87,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<SearchQuery> Insert(SearchQuery searchQuery)
         {
-            searchQuery.DateAdded = DateTime.Now;
+            searchQuery.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time");
             await table.AddAsync(searchQuery);
             await _context.SaveChangesAsync();
             return searchQuery;
@@ -103,7 +103,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public SearchQuery UpdateWithoutSave(SearchQuery searchQuery)
         {
-            searchQuery.DateAdded = DateTime.Now;
+            searchQuery.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time");
             _context.Entry(searchQuery).State = EntityState.Modified;
 
             return searchQuery;

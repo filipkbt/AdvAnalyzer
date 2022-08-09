@@ -67,7 +67,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
     public async Task<Notification> InsertWithoutSave(Notification notification)
         {
-            notification.DateAdded = DateTime.Now;
+            notification.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time");
             await table.AddAsync(notification);
             
             return notification;
@@ -75,7 +75,7 @@ namespace AdvAnalyzer.WebApi.Repositories
 
         public async Task<List<Notification>> InsertMany(List<Notification> notifications)
         {
-            notifications.ForEach(x => x.DateAdded = DateTime.Now);
+            notifications.ForEach(x => x.DateAdded = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Central European Standard Time"));
             await table.AddRangeAsync(notifications);
             await _context.SaveChangesAsync();
             return notifications;
