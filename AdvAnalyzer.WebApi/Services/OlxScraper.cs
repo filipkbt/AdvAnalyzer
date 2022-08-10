@@ -44,7 +44,7 @@ namespace AdvAnalyzer.WebApi.Services
             {
                 using (var browser = await extra.LaunchAsync(new LaunchOptions
                 {
-                    Headless = true,
+                    Headless = false,
                     Args = args,
                     ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
                     //DefaultViewport = null
