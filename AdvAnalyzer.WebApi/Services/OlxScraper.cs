@@ -176,7 +176,6 @@ namespace AdvAnalyzer.WebApi.Services
         {
             using (Page page = await browser.NewPageAsync())
             {
-                await page.SetCacheEnabledAsync(false);
                 await page.GoToAsync(url);
                 await page.ScreenshotAsync(".\\somepage" + searchQueryId + ".jpg", new ScreenshotOptions() { FullPage = true });
                 return await page.GetContentAsync();
