@@ -17,12 +17,10 @@ namespace AdvAnalyzer.WebApi.Services
 {
     public class OlxScraper : IOlxScraper
     {
-        private IAdvertisementRepository _advertisementRepository;
         private ILogger<OlxScraper> _logger;
 
-        public OlxScraper(IAdvertisementRepository advertisementRepository, ILogger<OlxScraper> logger)
+        public OlxScraper(ILogger<OlxScraper> logger)
         {
-            _advertisementRepository = advertisementRepository;
             _logger = logger;
         }
 
