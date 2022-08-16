@@ -35,7 +35,7 @@ namespace AdvAnalyzer.WebApi.Services
             var searchResults = new List<Advertisement>();
             Notification notification = null;
             bool isLastPageToScrap = false;
-            string[] args = { "--no-zygote", "--no-sandbox", "--start-maximized" };
+            string[] args = { "--no-zygote", "--no-sandbox", "--start-maximized", "--single-process" };
             OlxScraperResultDto olxScraperResult = new OlxScraperResultDto();
 
             var extra = new PuppeteerExtra().Use(new StealthPlugin()).Use(new AnonymizeUaPlugin());
@@ -44,7 +44,7 @@ namespace AdvAnalyzer.WebApi.Services
             {
                 using (var browser = await extra.LaunchAsync(new LaunchOptions
                 {
-                    Headless = false,
+                    Headless = true,
                     Args = args,
                     ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
                     //DefaultViewport = null
