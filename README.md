@@ -6,8 +6,9 @@ User has possibility to define Search Query, which he wants to monitore. He has 
 
 After this time next iteration of monitoring will be launched.
 
-If new advertisements will occur on iteration, user will receive notification in AdvAnalyzer System and also will receive Email
+If new advertisements will occur on iteration, user will receive notification in AdvAnalyzer System and also will receive Email. 
 
+User has also possibility to browse new Advertisements connected with defined Search Query at AdvAnalyzer and add them to favorites.
 
 ## Used technologies: 
 * Angular 14
